@@ -26,7 +26,11 @@ module ModeloQytetet
         puts tmp.to_s()
       end
       
-      puts "Pruebas finalizadas ..."
+      puts "Pruebas de TipoSorpresa finalizadas ..."
+      
+      @@juego.inicializar_tablero()
+      puts "Información del Tablero:"
+      puts @@juego.tablero.to_s()
       
     end
     
