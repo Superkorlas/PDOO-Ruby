@@ -2,13 +2,15 @@
 module ModeloQytetet
   
   require_relative "qytetet"
+  require_relative "tablero"
   require_relative "tipo_sorpresa"
   
   class PruebaQytetet
     
     @@juego = Qytetet.new
     
-    def self.main()      
+    def self.main() 
+      @@juego.inicializar_tablero()
       @@juego.inicializar_cartas_sorpresa()
       #puts @@juego.mazo.inspect
       
@@ -28,9 +30,8 @@ module ModeloQytetet
       
       puts "Pruebas de TipoSorpresa finalizadas ..."
       
-      @@juego.inicializar_tablero()
       puts "Información del Tablero:"
-      puts @@juego.tablero.to_s()
+      puts @@juego.tablero.to_s
       
     end
     

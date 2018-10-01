@@ -10,9 +10,14 @@ module ModeloQytetet
   
   class Qytetet
     attr_reader :mazo
+    attr_accessor :tablero
     
     def initialize
       @mazo=Array.new
+    end
+    
+    def inicializar_tablero
+      @tablero=Tablero.new
     end
 
     def inicializar_cartas_sorpresa    

@@ -18,14 +18,19 @@ module ModeloQytetet
     end
     
     def initialize(numeroCasilla, tipo)
-      @numeroCosilla=numeroCasilla
+      @numeroCasilla=numeroCasilla
       @coste=-1
       @tipo=tipo
       @titulo=nil
     end
     
     def to_s
-      puts "numeroCasilla: #{numeroCasilla}, coste: #{coste}, tipo: #{tipo}, titulo: #{titulo}\n"
+      if(@tipo == TipoCasilla::CALLE)
+        return "tipo: #{tipo}, numeroCasilla: #{numeroCasilla}, coste: #{coste}, @titulo: #{titulo}\n"
+      else
+        return "tipo: #{tipo}, numeroCasilla: #{numeroCasilla}\n"
+      end
+
     end
   end
 
