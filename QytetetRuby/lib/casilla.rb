@@ -11,23 +11,31 @@ module ModeloQytetet
       attr_reader :numeroCasilla, :coste, :tipo, :titulo
       attr_writer :titulo
   
-    def initialize(numeroCasilla, titulo)
+    def initialize(numeroCasilla, tipo , titulo )
       @numeroCasilla=numeroCasilla
-      @titulo=titulo
-      @tipo = TipoCasilla::CALLE
-      @titulo = titulo.getPrecioCompra()
+      if (tipo != nil) # Si recibe tipo
+        @coste=-1
+        @tipo=tipo
+        @titulo=nil
+      else # Si no recibe tipo
+        @titulo=titulo
+        @tipo = TipoCasilla::CALLE
+        @coste = titulo.precioCompra
+      end
     end
     
-    def initialize(numeroCasilla, tipo)
-      @numeroCasilla=numeroCasilla
-      @coste=-1
-      @tipo=tipo
-      @titulo=nil
+    def self.create_calle(numeroCasilla, titulo)
+      new(numeroCasilla, nil, titulo)
+    end
+    
+    def self.create_no_calle(numeroCasilla, tipo)
+      new(numeroCasilla, tipo, nil)
     end
     
     def to_s
+      puts self.inspect
       if(@tipo == TipoCasilla::CALLE)
-        return "tipo: #{tipo}, numeroCasilla: #{numeroCasilla}, coste: #{coste}, @titulo: #{titulo}\n"
+        return "tipo: #{@tipo}, numeroCasilla: #{@numeroCasilla}, coste: #{@coste}, @titulo: #{@titulo}\n"
       else
         return "tipo: #{tipo}, numeroCasilla: #{numeroCasilla}\n"
       end
