@@ -8,8 +8,10 @@ module ModeloQytetet
     attr_reader :nombre, :saldo, :propiedades
     attr_accessor :encarcelado, :carta_libertad, :casilla_actual
     
-    def initialize
-      
+    def initialize(nombre)
+      @nombre=nombre
+      @saldo=7500
+      @encarcelado=false    
     end
     
     
