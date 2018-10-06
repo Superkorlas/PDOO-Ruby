@@ -11,10 +11,14 @@ module ModeloQytetet
     attr_reader :casillas, :carcel
     
     def initialize
-      inicializar_tablero()
+      inicializar
+    end
+    
+    def es_casilla_carcel(numero_casilla)
+      raise NotImplementedError
     end
   
-    def inicializar_tablero
+    def inicializar
       @casillas=Array.new
       
       #Rellenar las demas, ver Tablero.java
@@ -93,6 +97,17 @@ module ModeloQytetet
       @carcel=casilla_carcel
             
     end
+    
+    
+    def obtener_casilla_final(casilla, desplazamiento)
+      raise NotImplementedError
+    end
+    
+    
+    def obtener_casilla_numero(numero_casilla)
+       raise NotImplementedError
+    end
+    
       
     def to_s
       retorno="Casillas:\n"

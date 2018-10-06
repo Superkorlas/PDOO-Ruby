@@ -7,19 +7,78 @@ module ModeloQytetet
   
   require_relative "sorpresa"
   require_relative "tipo_sorpresa"
+  require "singleton"
   
   class Qytetet
-    attr_reader :mazo
-    attr_accessor :tablero
+    include Singleton
+    
+    attr_reader :mazo, :jugadores, :max_jugadores, :num_sorpresas, :num_casillas, :precio_libertad, :saldo_salida, :dado, :jugador_actual
+    attr_accessor :tablero, :carta_actual
     
     def initialize
       @mazo=Array.new
-    end
-    
-    def inicializar_tablero
-      @tablero=Tablero.new
+      @jugadores=Array.new
+      
+      @@max_jugadores = 4
+      @@num_sorpresas = 20
+      @@num_casillas = 20
+      @@precio_libertad = 200
+      @@saldo_salida = 1000
+      
+      inicializar_tablero
     end
 
+    
+    def actuar_si_en_casilla_edificable
+      
+    end
+    
+    
+    def actuar_si_en_casilla_no_edificable
+      
+    end
+    
+    
+    def aplicar_sorpresa
+      
+    end
+
+    
+    def cancelar_hipoteca(numero_casilla)
+      raise NotImplementederror
+    end
+    
+    
+    def comprar_titulo_propiedad
+      raise NotImplementedError
+    end
+    
+    
+    def edificar_casa(numero_casilla)
+      raise NotImplementedError
+    end
+    
+    
+    def edificar_hotel(numero_casilla)
+      raise NotImplementedError
+    end
+    
+    
+    def encarcelar_jugador
+      
+    end
+    
+    
+    def valor_dado
+      raise NotImplementedError
+    end
+    
+    
+    def hipotecar_propiedad(numero_casilla)
+    
+    end
+    
+    
     def inicializar_cartas_sorpresa    
       mazo<< Sorpresa.new("De vuelta al pricipio, vuelves a la casilla de salida", 0, TipoSorpresa::IRACASILLA)
       mazo<< Sorpresa.new("Que suerte, te vas a la carcel", 0, TipoSorpresa::IRACASILLA)
@@ -34,5 +93,89 @@ module ModeloQytetet
 
     end
     
+    
+    def inicializar_juego(nombres)
+      
+    end
+    
+    
+    def inicializar_jugadores(nombres)
+    
+    end
+    
+        
+    def inicializar_tablero
+      @tablero=Tablero.new
+    end
+    
+    
+    def intentar_salir_carcel(metodo)
+      raise NotImplementedError
+    end
+    
+    
+    def jugar
+      
+    end
+    
+    
+    def mover(num_casilla_destino)
+      
+    end
+    
+    
+    def obtener_casilla_jugador_actual
+      raise NotImplementedError
+    end
+    
+    
+    def obtener_casillas_tablero
+      raise NotImplementedError
+    end
+    
+    
+    def obtener_propiedades_jugador
+      raise NotImplementedError
+    end
+    
+    
+    def obtener_propiedades_jugador_segun_estado_hipoteca(estado_hipoteca)
+      raise NotImplementedError
+    end
+    
+    
+    def obtener_ranking
+      
+    end
+    
+    
+    def obtener_saldo_jugador_actual
+      raise NotImplementedError
+    end
+    
+    
+    def salida_jugadores
+      
+    end
+    
+    
+    def siguiente_jugador
+      
+    end
+    
+    
+    def tirar_dado
+      raise NotImplementedError
+    end
+    
+    
+    def vender_propiedad(num_casilla)
+      raise NotImplementedError
+    end
+    
+    def to_s
+      return "Qytetet{ mazo=#{mazo}, tablero=#{tablero}, cartaActual=#{cartaActual}, jugadores=#{jugadores}, jugadorActual=#{jugadorActual}, dado=#{dado}}";
+    end
+        
   end
 end

@@ -32,6 +32,31 @@ module ModeloQytetet
       new(numeroCasilla, tipo, nil)
     end
     
+    
+    def asignar_propietario(jugador)
+      raise NotImplementedError
+    end
+    
+    
+    def pagar_alquiler
+      raise NotImplementedError
+    end
+    
+    
+    def propietario_encarcelado
+      raise NotImplementedError
+    end
+    
+    
+    def soy_edificable
+      raise NotImplementedError
+    end
+    
+    
+    def tengo_propietario
+      raise NotImplementedError
+    end
+    
     def to_s
       puts self.inspect
       if(@tipo == TipoCasilla::CALLE)
