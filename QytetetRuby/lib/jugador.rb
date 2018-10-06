@@ -11,7 +11,9 @@ module ModeloQytetet
     def initialize(nombre)
       @nombre=nombre
       @saldo=7500
-      @encarcelado=false    
+      @encarcelado=false 
+      @carta_libertad=nil
+      #HAY QUE INICIALIZAR casillaActual!!!!
     end
     
     

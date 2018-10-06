@@ -82,7 +82,7 @@ module ModeloQytetet
     
     
     def to_s
-      return "nombre: #{nombre}, propietario: #{propietario}, hipotecada: #{hipotecada}, precioCompra: #{precioCompra}, alquilerBase: #{alquilerBase}, factorRevalorizacion: #{factorRevalorizacion}, hipotecaBase: #{hipotecaBase}, precioEdificar: #{precioEdificar}, numHoteles: #{numHoteles}, numCasas: #{numCasas}\n"
+      return "Titulo{nombre: #{nombre},  hipotecada: #{hipotecada}, precioCompra: #{precioCompra}, alquilerBase: #{alquilerBase}, factorRevalorizacion: #{factorRevalorizacion}, hipotecaBase: #{hipotecaBase}, precioEdificar: #{precioEdificar}, numHoteles: #{numHoteles}, numCasas: #{numCasas}}\n"
     end
   
   end

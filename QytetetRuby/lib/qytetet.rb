@@ -4,7 +4,7 @@
 # and open the template in the editor.
 
 module ModeloQytetet
-  
+  require_relative "jugador"
   require_relative "sorpresa"
   require_relative "tipo_sorpresa"
   require "singleton"
@@ -95,12 +95,16 @@ module ModeloQytetet
     
     
     def inicializar_juego(nombres)
-      
+      inicializar_jugadores(nombres)
+      inicializar_tablero()
+      inicializar_cartas_sorpresa()
     end
     
     
     def inicializar_jugadores(nombres)
-    
+      for nombre in nombres do
+        @jugadores<< Jugador.new(nombre)
+      end
     end
     
         
