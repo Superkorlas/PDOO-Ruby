@@ -58,11 +58,10 @@ module ModeloQytetet
     end
     
     def to_s
-      puts self.inspect
       if(@tipo == TipoCasilla::CALLE)
-        return "tipo: #{@tipo}, numeroCasilla: #{@numeroCasilla}, coste: #{@coste}, @titulo: #{@titulo}\n"
+        return "tipo: #{@tipo}, numeroCasilla: #{@numeroCasilla}, coste: #{@coste}, @titulo: #{@titulo}"
       else
-        return "tipo: #{tipo}, numeroCasilla: #{numeroCasilla}\n"
+        return "tipo: #{@tipo}, numeroCasilla: #{@numeroCasilla}"
       end
 
     end

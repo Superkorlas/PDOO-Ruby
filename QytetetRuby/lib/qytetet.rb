@@ -18,6 +18,7 @@ module ModeloQytetet
     def initialize
       @mazo=Array.new
       @jugadores=Array.new
+      @carta_actual = nil
       
       @@max_jugadores = 4
       @@num_sorpresas = 20
@@ -25,7 +26,7 @@ module ModeloQytetet
       @@precio_libertad = 200
       @@saldo_salida = 1000
       
-      inicializar_tablero
+      #inicializar_tablero
     end
 
     
@@ -178,7 +179,19 @@ module ModeloQytetet
     end
     
     def to_s
-      return "Qytetet{ mazo=#{mazo}, tablero=#{tablero}, cartaActual=#{cartaActual}, jugadores=#{jugadores}, jugadorActual=#{jugadorActual}, dado=#{dado}}";
+      retorno = "Qytetet{ mazo="
+      
+      for carta in @mazo
+        retorno = retorno + carta.to_s
+      end
+      
+      retorno = retorno + ",\n tablero=#{@tablero},\n cartaActual=#{@carta_actual},\njugadores="
+      
+      for jugador in @jugadores
+        retorno = retorno + jugador.to_s
+      end
+      
+      retorno = retorno + ",\n jugadorActual=#{@jugador_actual},\n dado=#{@dado}}"
     end
         
   end

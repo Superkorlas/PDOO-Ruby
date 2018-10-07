@@ -20,7 +20,7 @@ module ModeloQytetet
     end
     
     def to_s()
-      return "Texto: #{texto} \n Valor: #{valor} \n Tipo: #{tipo} \n "
+      return "\nTexto: #{@texto}\t Valor: #{@valor}\t Tipo: #{@tipo}"
     end
     
   end

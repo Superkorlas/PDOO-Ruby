@@ -50,6 +50,9 @@ module ModeloQytetet
         puts jugador
       end
       
+      puts "Estado del juego:"
+      puts @@juego
+      
     end
     
     def self.get_nombre_jugadores()

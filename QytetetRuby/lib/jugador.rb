@@ -123,7 +123,7 @@ module ModeloQytetet
     
 
     def to_s
-      return "Jugador: nombre=#{nombre}, saldo=#{saldo}, propiedades=#{propiedades}, casilla_actual= #{casilla_actual}, encarcelado= #{encarcelado}, carta_libertad=#{carta_libertad}"
+      return "\nJugador: nombre=#{@nombre}, saldo=#{@saldo}, propiedades=#{@propiedades}, casilla_actual= #{@casilla_actual}, encarcelado= #{@encarcelado}, carta_libertad=#{@carta_libertad}"
     end
     
   end
