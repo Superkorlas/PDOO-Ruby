@@ -25,44 +25,44 @@ module ModeloQytetet
       casilla_salida    =Casilla.create_no_calle(0, TipoCasilla::SALIDA)
       @casillas << casilla_salida
       
-      titulo1 = TituloPropiedad.new("Viso", 0, 0, 0.0, 0, 0)
+      titulo1 = TituloPropiedad.new("Viso", 558, 356, 12.5, 55, 550)
       casilla_calle1 = Casilla.create_calle(1, titulo1)
       @casillas << casilla_calle1
       
-      titulo2 = TituloPropiedad.new("Parque de los Angeles", 0, 0, 0.0, 0, 0)
+      titulo2 = TituloPropiedad.new("Parque de los Angeles", 794, 670, 18.0, 50, 600)
       casilla_calle2 = Casilla.create_calle(2, titulo2)
       @casillas << casilla_calle2
       
-      titulo3 = TituloPropiedad.new("Calle San Andres", 0, 0, 0.0, 0, 0)
+      titulo3 = TituloPropiedad.new("Calle San Andres", 787, 324, 13.0, 65, 475)
       casilla_calle3 = Casilla.create_calle(3, titulo3)
       @casillas << casilla_calle3
       
-      titulo4 = TituloPropiedad.new("Barrio Alto", 0, 0, 0.0, 0, 0)
+      titulo4 = TituloPropiedad.new("Barrio Alto", 565, 402, 10.0, 50, 200)
       casilla_calle4 = Casilla.create_calle(4, titulo4)
       @casillas << casilla_calle4
             
       casilla_carcel = Casilla.create_no_calle(5, TipoCasilla::CARCEL)
       @casillas << casilla_carcel
       
-      titulo6 = TituloPropiedad.new("Estacion", 0, 0, 0.0, 0, 0)
+      titulo6 = TituloPropiedad.new("Estacion", 934, 334, 14.0, 95, 865)
       casilla_calle6 = Casilla.create_calle(6, titulo6)
       @casillas << casilla_calle6
       
       casilla_sorpresa1 =Casilla.create_no_calle(7, TipoCasilla::SORPRESA)
       @casillas << casilla_sorpresa1
       
-      titulo8 = TituloPropiedad.new("Barrio San Francisco", 0, 0, 0.0, 0, 0)
+      titulo8 = TituloPropiedad.new("Barrio San Francisco", 918, 268, 13.9, 90, 789)
       casilla_calle8 = Casilla.create_calle(8, titulo8)
       @casillas << casilla_calle8
       
-      titulo9 = TituloPropiedad.new("Calle San Isidro", 0, 0, 0.0, 0, 0)
+      titulo9 = TituloPropiedad.new("Calle San Isidro", 998, 313, 16.87, 100, 1000)
       casilla_calle9 = Casilla.create_calle(9, titulo9)
       @casillas << casilla_calle9
       
       casilla_parking = Casilla.create_no_calle(10, TipoCasilla::PARKING)
       @casillas << casilla_parking
       
-      titulo11 = TituloPropiedad.new("Alcazaba", 0, 0, 0.0, 0, 0)
+      titulo11 = TituloPropiedad.new("Alcazaba", 814, 670, 20.0, 75, 650)
       casilla_calle11 = Casilla.create_calle(11, titulo11)
       @casillas << casilla_calle11
       
@@ -72,25 +72,25 @@ module ModeloQytetet
       casilla_sorpresa2 = Casilla.create_no_calle(13, TipoCasilla::SORPRESA)
       @casillas << casilla_sorpresa2
       
-      titulo14 = TituloPropiedad.new("Esperanza", 0, 0, 0.0, 0, 0)
+      titulo14 = TituloPropiedad.new("Esperanza", 989, 674, 19.0, 70, 980)
       casilla_calle14 = Casilla.create_calle(14, titulo14)
       @casillas << casilla_calle14
       
       casilla_juez = Casilla.create_no_calle(15, TipoCasilla::JUEZ)
       @casillas << casilla_juez
       
-      titulo16 = TituloPropiedad.new("Meson de Arroyo", 0, 0, 0.0, 0, 0)
+      titulo16 = TituloPropiedad.new("Meson de Arroyo", 903, 535, 14.75, 85, 865)
       casilla_calle16 = Casilla.create_calle(16, titulo16)
       @casillas << casilla_calle16
       
-      titulo17 = TituloPropiedad.new("El Cuellos", 0, 0, 0.0, 0, 0)
+      titulo17 = TituloPropiedad.new("El Cuellos", 686, 599, 20.0, 100, 530)
       casilla_calle17 = Casilla.create_calle(17, titulo17)
       @casillas << casilla_calle17
       
       casilla_sorpresa3 = Casilla.create_no_calle(18, TipoCasilla::SORPRESA)
       @casillas << casilla_sorpresa3  
       
-      titulo19 = TituloPropiedad.new("Alfaguara", 0, 0, 0.0, 0, 0)
+      titulo19 = TituloPropiedad.new("Alfaguara", 755, 387, 19.75, 70, 350)
       casilla_calle19 = Casilla.create_calle(19, titulo19)
       @casillas << casilla_calle19
       

@@ -13,7 +13,7 @@ module ModeloQytetet
       @saldo=7500
       @encarcelado=false 
       @carta_libertad=nil
-      #HAY QUE INICIALIZAR casillaActual!!!!
+      @casilla_actual=nil
     end
     
     
