@@ -10,29 +10,6 @@ module ModeloQytetet
     @@juego = Qytetet.instance
     
     def self.main() 
-      #@@juego.inicializar_tablero()
-      #@@juego.inicializar_cartas_sorpresa()
-      #puts @@juego.mazo.inspect
-      
-#      puts "Empezando pruebas ..."
-#      
-#      for tmp in Mayor0()
-#        puts tmp.to_s()
-#      end
-#      
-#      for tmp in TipoIrCasilla()
-#        puts tmp.to_s()
-#      end
-#      
-#      for tmp in DevuelveTipo(TipoSorpresa::SALIRCARCEL)
-#        puts tmp.to_s()
-#      end
-#      
-#      puts "Pruebas de TipoSorpresa finalizadas ..."
-#      
-#      puts "Información del Tablero:"
-#      puts @@juego.tablero.to_s
-
       puts "============================================"
       puts "============BIENVENIDO A QYTETET============"
       puts "============================================"
