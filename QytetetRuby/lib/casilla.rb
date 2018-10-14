@@ -9,7 +9,7 @@ module ModeloQytetet
   
   class Casilla
       attr_reader :numeroCasilla, :coste, :tipo, :titulo
-      attr_writer :titulo
+      #attr_writer :titulo
   
     def initialize(numeroCasilla, tipo , titulo )
       @numeroCasilla=numeroCasilla
@@ -47,6 +47,10 @@ module ModeloQytetet
       raise NotImplementedError
     end
     
+    def set_titulo(nuevo_titulo)
+      @titulo = nuevo_titulo
+    end
+    
     
     def soy_edificable
       raise NotImplementedError
@@ -63,8 +67,9 @@ module ModeloQytetet
       else
         return "tipo: #{@tipo}, numeroCasilla: #{@numeroCasilla}"
       end
-
     end
+    
+    private :set_titulo
   end
 
 end

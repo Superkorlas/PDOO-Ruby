@@ -13,7 +13,7 @@ module ModeloQytetet
     include Singleton
     
     attr_reader :mazo, :jugadores, :max_jugadores, :num_sorpresas, :num_casillas, :precio_libertad, :saldo_salida, :dado, :jugador_actual
-    attr_accessor :tablero, :carta_actual
+    attr_accessor :tablero #, :carta_actual
     
     def initialize
       @mazo=Array.new
@@ -163,6 +163,10 @@ module ModeloQytetet
       
     end
     
+    def set_carta_actual (carta)
+      @carta_actual = carta
+    end
+    
     
     def siguiente_jugador
       
@@ -194,5 +198,7 @@ module ModeloQytetet
       retorno = retorno + ",\n jugadorActual=#{@jugador_actual},\n dado=#{@dado}}"
     end
         
+    private :encarcelar_jugador, :inicializar_cartas_sorpresa, :inicializar_jugadores, :inicializar_tablero, :salida_jugadores, :set_carta_actual
+    
   end
 end
