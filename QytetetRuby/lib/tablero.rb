@@ -118,7 +118,7 @@ module ModeloQytetet
       
       return retorno + "#{carcel}"
     end
+    
+    private :inicializar
   end
-
-
 end

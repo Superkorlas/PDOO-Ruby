@@ -14,9 +14,9 @@ module ModeloQytetet
        @alquilerBase=alquilerBase
        @factorRevalorizacion=factorRevalorizacion
        @hipotecaBase=hipotecaBase
-       
+       @precioEdificar=precioEdificar
        @hipotecada=false
-       @numcasas=0
+       @numCasas=0
        @numHoteles=0
     end
     

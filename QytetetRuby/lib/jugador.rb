@@ -126,5 +126,7 @@ module ModeloQytetet
       return "\nJugador: nombre=#{@nombre}, saldo=#{@saldo}, propiedades=#{@propiedades}, casilla_actual= #{@casilla_actual}, encarcelado= #{@encarcelado}, carta_libertad=#{@carta_libertad}"
     end
     
+    private :eliminar_de_mis_propiedades, :es_de_mi_propiedad, :tengo_saldo
+    
   end
 end
