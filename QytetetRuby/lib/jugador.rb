@@ -16,6 +16,10 @@ module ModeloQytetet
       @casilla_actual=nil
     end
     
+    def <=> (otro_jugador)
+      otroJugador.obtenerCapital <=> obtenerCapital
+    end
+    
     
     def cancelar_hipoteca(titulo)
       raise NotImplementedError
@@ -28,7 +32,11 @@ module ModeloQytetet
     
     
     def cuantas_casas_hoteles_tengo
-      raise NotImplementedError
+      total = 0
+      for propiedad in @propiedades
+        total += propiedad.num_casas + propiedad.num_hoteles
+      end
+      return total
     end
     
     
@@ -38,7 +46,9 @@ module ModeloQytetet
     
     
     def devolver_carta_libertad
-      raise NotImplementedError
+      carta_libertad = @carta_libertad
+      @carta_libertad = nil
+      return carta_libertad
     end
     
     

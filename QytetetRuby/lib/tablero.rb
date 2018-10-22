@@ -15,7 +15,7 @@ module ModeloQytetet
     end
     
     def es_casilla_carcel(numero_casilla)
-      raise NotImplementedError
+      return (@carcel.numero_casilla == numero_casilla)
     end
   
     def inicializar
@@ -100,12 +100,14 @@ module ModeloQytetet
     
     
     def obtener_casilla_final(casilla, desplazamiento)
-      raise NotImplementedError
+      num_casilla = (casilla.numero_casilla + desplazamiento) % @casillas.length
+      cas_resultado = @casillas.at(num_casilla)
+      return cas_resultado
     end
     
     
     def obtener_casilla_numero(numero_casilla)
-       raise NotImplementedError
+      return (@casillas.at(numero_casilla))
     end
     
       

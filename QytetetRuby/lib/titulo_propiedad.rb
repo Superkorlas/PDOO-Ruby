@@ -5,19 +5,19 @@
 module ModeloQytetet
   
   class TituloPropiedad
-    attr_reader :nombre,:hipotecada,:precioCompra,:alquilerBase,:factorRevalorizacion,:hipotecaBase,:precioEdificar,:numHoteles,:numCasas
+    attr_reader :nombre,:hipotecada,:@precio_compra,:@alquiler_base,:@factor_revalorizacion,:@hipoteca_base,:@precio_edificar,:@num_hoteles,:@num_casas
     attr_writer :hipotecada, :propietario
     
     def initialize(nombre,precioCompra,alquilerBase,factorRevalorizacion,hipotecaBase,precioEdificar)
        @nombre=nombre
-       @precioCompra=precioCompra
-       @alquilerBase=alquilerBase
-       @factorRevalorizacion=factorRevalorizacion
-       @hipotecaBase=hipotecaBase
-       @precioEdificar=precioEdificar
+       @precio_compra=precioCompra
+       @alquiler_base=alquilerBase
+       @factor_revalorizacion=factorRevalorizacion
+       @hipoteca_base=hipotecaBase
+       @precio_edificar=precioEdificar
        @hipotecada=false
-       @numCasas=0
-       @numHoteles=0
+       @num_casas=0
+       @num_hoteles=0
     end
     
     
@@ -82,7 +82,7 @@ module ModeloQytetet
     
     
     def to_s
-      return "Titulo{nombre: #{nombre},  hipotecada: #{hipotecada}, precioCompra: #{precioCompra}, alquilerBase: #{alquilerBase}, factorRevalorizacion: #{factorRevalorizacion}, hipotecaBase: #{hipotecaBase}, precioEdificar: #{precioEdificar}, numHoteles: #{numHoteles}, numCasas: #{numCasas}}\n"
+      return "Titulo{nombre: #{nombre},  hipotecada: #{hipotecada}, precioCompra: #{@precio_compra}, alquilerBase: #{@alquiler_base}, factorRevalorizacion: #{@factor_revalorizacion}, hipotecaBase: #{@hipoteca_base}, precioEdificar: #{@precio_edificar}, numHoteles: #{@num_hoteles}, numCasas: #{@num_casas}}\n"
     end
   
   end

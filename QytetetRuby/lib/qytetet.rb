@@ -7,26 +7,26 @@ module ModeloQytetet
   require_relative "jugador"
   require_relative "sorpresa"
   require_relative "tipo_sorpresa"
+  require_relative "estado_juego"
   require "singleton"
   
   class Qytetet
     include Singleton
     
-    attr_reader :mazo, :jugadores, :max_jugadores, :num_sorpresas, :num_casillas, :precio_libertad, :saldo_salida, :dado, :jugador_actual
-    attr_accessor :tablero #, :carta_actual
+    attr_reader :mazo, :jugadores, :max_jugadores, :num_sorpresas, :num_casillas, :precio_libertad, :saldo_salida, :dado, :jugador_actual, :carta_actual
+    attr_accessor :tablero, :estadoJuego
     
     def initialize
       @mazo=Array.new
       @jugadores=Array.new
       @carta_actual = nil
+      @estado_juego = nil
       
       @@max_jugadores = 4
       @@num_sorpresas = 20
       @@num_casillas = 20
       @@precio_libertad = 200
       @@saldo_salida = 1000
-      
-      #inicializar_tablero
     end
 
     
@@ -167,6 +167,10 @@ module ModeloQytetet
       @carta_actual = carta
     end
     
+    def set_estado_juego (estado)
+      @estado_juego = estado
+    end
+    
     
     def siguiente_jugador
       
@@ -195,10 +199,10 @@ module ModeloQytetet
         retorno = retorno + jugador.to_s
       end
       
-      retorno = retorno + ",\n jugadorActual=#{@jugador_actual},\n dado=#{@dado}}"
+      retorno = retorno + ",\n jugadorActual=#{@jugador_actual},\n dado=#{@dado},\n estado juego=#{@estado_juego}}"
     end
         
-    private :encarcelar_jugador, :inicializar_cartas_sorpresa, :inicializar_jugadores, :inicializar_tablero, :salida_jugadores, :set_carta_actual
+    private :encarcelar_jugador, :inicializar_cartas_sorpresa, :inicializar_jugadores, :inicializar_tablero, :salida_jugadores, :set_carta_actual, :set_estado_juego
     
   end
 end

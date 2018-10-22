@@ -3,16 +3,16 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
-module ModeloQytetet 
+module ModeloQytetet
   
   require_relative "tipo_casilla"
   
   class Casilla
-      attr_reader :numeroCasilla, :coste, :tipo, :titulo
+      attr_reader :numero_casilla, :coste, :tipo, :titulo
       #attr_writer :titulo
   
     def initialize(numeroCasilla, tipo , titulo )
-      @numeroCasilla=numeroCasilla
+      @numero_casilla=numeroCasilla
       if (tipo != nil) # Si recibe tipo
         @coste=-1
         @tipo=tipo
@@ -20,7 +20,7 @@ module ModeloQytetet
       else # Si no recibe tipo
         @titulo=titulo
         @tipo = TipoCasilla::CALLE
-        @coste = titulo.precioCompra
+        @coste = titulo.precio_compra
       end
     end
     
@@ -63,9 +63,9 @@ module ModeloQytetet
     
     def to_s
       if(@tipo == TipoCasilla::CALLE)
-        return "tipo: #{@tipo}, numeroCasilla: #{@numeroCasilla}, coste: #{@coste}, @titulo: #{@titulo}"
+        return "tipo: #{@tipo}, numeroCasilla: #{@numero_casilla}, coste: #{@coste}, @titulo: #{@titulo}"
       else
-        return "tipo: #{@tipo}, numeroCasilla: #{@numeroCasilla}"
+        return "tipo: #{@tipo}, numeroCasilla: #{@numero_casilla}"
       end
     end
     
