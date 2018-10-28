@@ -5,7 +5,7 @@
 module ModeloQytetet
   
   class TituloPropiedad
-    attr_reader :nombre,:hipotecada,:@precio_compra,:@alquiler_base,:@factor_revalorizacion,:@hipoteca_base,:@precio_edificar,:@num_hoteles,:@num_casas
+    attr_reader :nombre,:hipotecada,:precio_compra,:alquiler_base,:factor_revalorizacion,:hipoteca_base,:precio_edificar,:num_hoteles,:num_casas
     attr_writer :hipotecada, :propietario
     
     def initialize(nombre,precioCompra,alquilerBase,factorRevalorizacion,hipotecaBase,precioEdificar)
@@ -42,22 +42,22 @@ module ModeloQytetet
     
     
     def cancelar_hipoteca
-      
+      raise NotImplementedError
     end
     
     
     def cobrar_alquiler(coste)
-      
+      raise NotImplementedError
     end
     
     
     def edificar_casa
-      
+      raise NotImplementedError
     end
     
     
     def edificar_hotel
-      
+      raise NotImplementedError
     end
 
     

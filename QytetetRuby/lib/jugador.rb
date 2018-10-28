@@ -14,10 +14,11 @@ module ModeloQytetet
       @encarcelado=false 
       @carta_libertad=nil
       @casilla_actual=nil
+      @propiedades=Array.new
     end
     
     def <=> (otro_jugador)
-      otroJugador.obtenerCapital <=> obtenerCapital
+      otroJugador.obtener_capital <=> obtener_capital
     end
     
     
@@ -68,7 +69,12 @@ module ModeloQytetet
     
     
     def es_de_mi_propiedad(titulo)
-      raise NotImplementedError
+      for propiedad in @propiedades
+        if (propiedad == titulo)
+          return true
+        end
+      end
+      return false
     end
     
     
@@ -83,22 +89,32 @@ module ModeloQytetet
     
     
     def ir_a_carcel(casilla)
-      
+      raise NotImplementedError
     end
     
-    
-    def modificar_saldo(int)
-      raise NotImplementedError
+    def modificar_saldo(modificacion)
+      @saldo += modificacion
+      return @saldo
     end
     
     
     def obtener_capital
-      raise NotImplementedError
+      saldo_total = @saldo
+      for propiedad in @propiedades
+          saldo_total += propiedad.precio_compra + (propiedad.num_casas + propiedad.num_hoteles) * propiedad.precio_edificacion
+      end
+      return saldo_total
     end
     
     
     def obtener_propiedades(hipotecada)
-      raise NotImplementedError
+      propiedades = Array.new
+      for propiedad in @propiedades
+        if (propiedad.hipotecada == hipotecada)
+          propiedades<<propiedad
+        end
+      end
+      return propiedades
     end
     
     
@@ -108,7 +124,7 @@ module ModeloQytetet
     
     
     def pagar_impuesto
-      
+      @saldo -= @casilla_actual.coste 
     end
     
     
@@ -118,12 +134,19 @@ module ModeloQytetet
     
     
     def tengo_carta_libertad
-      raise NotImplementedError
+      return (@carta_libertad != nil)
+    end
+    
+    def tengo_propiedades
+      if (@propiedades.empty?)
+        return false
+      end
+      return true
     end
     
     
     def tengo_saldo(cantidad)
-      raise NotImplementedError
+      return (@saldo >= cantidad)
     end
     
     
@@ -133,7 +156,7 @@ module ModeloQytetet
     
 
     def to_s
-      return "\nJugador: nombre=#{@nombre}, saldo=#{@saldo}, propiedades=#{@propiedades}, casilla_actual= #{@casilla_actual}, encarcelado= #{@encarcelado}, carta_libertad=#{@carta_libertad}"
+      return "\nJugador: nombre=#{@nombre}, saldo=#{@saldo}, capital total=#{obtener_capital} propiedades=#{@propiedades}, casilla_actual= #{@casilla_actual}, encarcelado= #{@encarcelado}, carta_libertad=#{@carta_libertad}"
     end
     
     private :eliminar_de_mis_propiedades, :es_de_mi_propiedad, :tengo_saldo
