@@ -4,6 +4,7 @@
 
 module ModeloQytetet
   class Jugador
+    include Comparable
     
     attr_reader :nombre, :saldo, :propiedades
     attr_accessor :encarcelado, :carta_libertad, :casilla_actual
@@ -18,7 +19,15 @@ module ModeloQytetet
     end
     
     def <=> (otro_jugador)
-      otroJugador.obtener_capital <=> obtener_capital
+      otro_capital = otro_jugador.obtener_capital
+      mi_capital = obtener_capital
+      if otro_capital>mi_capital
+        return 1
+      end
+      if otro_capital<mi_capital
+        return -1
+      end
+      return 0
     end
     
     

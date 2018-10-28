@@ -6,7 +6,7 @@ module ModeloQytetet
   
   class TituloPropiedad
     attr_reader :nombre,:hipotecada,:precio_compra,:alquiler_base,:factor_revalorizacion,:hipoteca_base,:precio_edificar,:num_hoteles,:num_casas
-    attr_writer :hipotecada, :propietario
+    attr_accessor :hipotecada, :propietario
     
     def initialize(nombre,precioCompra,alquilerBase,factorRevalorizacion,hipotecaBase,precioEdificar)
        @nombre=nombre
@@ -18,6 +18,7 @@ module ModeloQytetet
        @hipotecada=false
        @num_casas=0
        @num_hoteles=0
+       @propietario=nil
     end
     
     

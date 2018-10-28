@@ -19,6 +19,7 @@ module ModeloQytetet
     def initialize
       @mazo=Array.new
       @jugadores=Array.new
+      @jugador_actual = nil
       @carta_actual = nil
       @estado_juego = nil
       
@@ -120,12 +121,15 @@ module ModeloQytetet
     
     
     def jugar
-      
+      desplazamiento = tirar_dado
+      casilla_destino = @tablero.obtener_casilla_final(@jugador_actual.casilla_actual, desplazamiento)
+      mover(casilla_destino.numero_casilla)
+      return desplazamiento
     end
     
     
     def mover(num_casilla_destino)
-      
+      raise NotImplementedError
     end
     
     
@@ -145,12 +149,29 @@ module ModeloQytetet
     
     
     def obtener_propiedades_jugador_segun_estado_hipoteca(estado_hipoteca)
-      raise NotImplementedError
+      propiedades = Array.new
+      propiedades = @jugador_actual.obtener_propiedades(estado_hipoteca)
+      resultado = Array.new
+      for propiedad in propiedades
+        for casilla in @tablero.casillas
+          if casilla.tipo == TipoCasilla::CALLE
+            resultado<< casilla.numero_casilla
+          end
+        end
+      end
+      return resultado
     end
     
+    def jugador_actual_en_calle_libre
+      return !(@jugador_actual.casilla_actual.titulo.tengo_propietario)
+    end
+    
+    def jugador_actual_encarcelado
+      return @jugador_actual.encarcelado
+    end
     
     def obtener_ranking
-      
+      @jugadores = @jugadores.sort
     end
     
     
@@ -160,7 +181,12 @@ module ModeloQytetet
     
     
     def salida_jugadores
-      
+      for jugador in @jugadores
+        jugador.casilla_actual = 0
+      end
+      num_aleatorio = rand(@jugadores.size)
+      @jugador_actual = @jugadores.at(num_aleatorio)
+      @estado_juego  = EstadoJuego::JA_PREPARADO
     end
     
     def set_carta_actual (carta)
@@ -173,7 +199,21 @@ module ModeloQytetet
     
     
     def siguiente_jugador
-      
+      num_jugador = 0
+      num = 0
+      for jugador in @jugadores
+        if (jugador == @jugador_actual)
+          num_jugador = num
+        end
+        num += 1
+      end
+      @jugador_actual = @jugadores.at((num_jugador+1)%@jugadores.size)
+      #Actualizamos el estado del juego
+      if (@jugador.encarcelado)
+        @estado_juego = EstadoJuego::JA_ENCARCELADOCONOPCIONDELIBERTAD
+      else
+        @estado_juego = EstadoJuego::JA_PREPARADO
+      end
     end
     
     
