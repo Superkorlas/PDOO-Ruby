@@ -32,17 +32,67 @@ module ModeloQytetet
 
     
     def actuar_si_en_casilla_edificable
-      
+      debo_pagar = @jugador_actual.debo_pagar_alquiler
+      if debo_pagar
+          @jugador_actual.pagar_alquiler
+      end
+      casilla = obtener_casilla_jugador_actual
+      tengo_propietario = casilla.tengo_propietario
+      if tengo_propietario
+        @estado_juego = EstadoJuego::JA_PUEDEGESTIONAR
+      else
+        @estado_juego = EstadoJuego::JA_PUEDECOMPRAROGESTIONAR
+      end
     end
     
     
     def actuar_si_en_casilla_no_edificable
-      
+      raise NotImplementederror
     end
     
     
     def aplicar_sorpresa
+      @estado_juego = EstadoJuego::JA_PUEDEGESTIONAR
+      if @carta_actual.tipo == TipoSorpresa::SALIRCARCEL
+        @jugador_actual.carta_libertad = @carta_actual
+      else
+        @mazo<< @carta_actual
+      end
       
+      if @carta_actual.tipo == TipoSorpresa::PAGARCOBRAR
+        @jugador_actual.modificar_saldo(@carta_actual.valor)
+        if @jugador_actual.saldo < 0 
+          @estado_juego = EstadoJuego::ALGUNJUGADORENBANCARROTA
+        end
+      elsif @carta_actual.tipo == TipoSorpresa::IRACASILLA
+        valor = @carta_Actual.valor
+        casilla_carcel = @tablero.es_casilla_carcel(valor)
+        if casilla_carcel == true
+          encarcelar_jugador
+        else
+          mover(valor)
+        end
+      elsif @carta_actual.tipo == TipoSorpresa::PORCASAHOTEL
+        cantidad = @carta_actual.valor
+        numero_total = @jugador_actual.cuantas_casas_hoteles_tengo
+        @jugador_actual.modificar_saldo(cantidad * numero_total)
+        if @jugador_actual.saldo < 0 
+          @estado_juego = EstadoJuego::ALGUNJUGADORENBANCARROTA
+        end
+      elsif @carta_actual.tipo == TipoSorpresa::PORJUGADOR
+        for jugador in @jugadores
+          if jugador != @jugador_actual
+            jugador.modificar_saldo(@carta_actual.valor)
+            if @jugador_actual.saldo < 0 
+              @estado_juego = EstadoJuego::ALGUNJUGADORENBANCARROTA
+            end
+          end
+          @jugador_actual.modificar_saldo(-@carta_actual.valor)
+          if @jugador_actual.saldo < 0 
+            @estado_juego = EstadoJuego::ALGUNJUGADORENBANCARROTA
+          end
+        end
+      end
     end
 
     

@@ -128,7 +128,7 @@ module ModeloQytetet
     
     
     def pagar_alquiler
-      
+      raise NotImplementedError
     end
     
     
@@ -138,7 +138,7 @@ module ModeloQytetet
     
     
     def pagar_libertad(cantidad)
-      
+      raise NotImplementedError
     end
     
     
