@@ -44,7 +44,7 @@ module ModeloQytetet
     
     
     def propietario_encarcelado
-      raise NotImplementedError
+      return @titulo.propietario_encarcelado
     end
     
     def set_titulo(nuevo_titulo)
@@ -53,12 +53,12 @@ module ModeloQytetet
     
     
     def soy_edificable
-      raise NotImplementedError
+      return (@tipo == TipoCasilla::CALLE)
     end
     
     
     def tengo_propietario
-      raise NotImplementedError
+      return @titulo.tengo_propietario
     end
     
     def to_s

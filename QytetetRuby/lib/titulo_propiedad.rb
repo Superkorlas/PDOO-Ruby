@@ -73,12 +73,12 @@ module ModeloQytetet
     
     
     def propietario_encarcelado
-      raise NotImplementedError
+      return (@propietario.encarcelado)
     end
     
     
     def tengo_propietario
-      raise NotImplementedError
+      return (@propietario != nil)
     end
     
     

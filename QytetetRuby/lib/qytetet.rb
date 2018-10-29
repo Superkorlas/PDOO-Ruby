@@ -72,7 +72,7 @@ module ModeloQytetet
     
     
     def valor_dado
-      raise NotImplementedError
+      return @dado.valor
     end
     
     
@@ -176,7 +176,7 @@ module ModeloQytetet
     
     
     def obtener_saldo_jugador_actual
-      raise NotImplementedError
+      return @jugador_actual.saldo
     end
     
     
@@ -218,7 +218,7 @@ module ModeloQytetet
     
     
     def tirar_dado
-      raise NotImplementedError
+      return @dado.tirar
     end
     
     
@@ -242,7 +242,7 @@ module ModeloQytetet
       retorno = retorno + ",\n jugadorActual=#{@jugador_actual},\n dado=#{@dado},\n estado juego=#{@estado_juego}}"
     end
         
-    private :encarcelar_jugador, :inicializar_cartas_sorpresa, :inicializar_jugadores, :inicializar_tablero, :salida_jugadores, :set_carta_actual, :set_estado_juego
+    private :encarcelar_jugador, :inicializar_cartas_sorpresa, :inicializar_jugadores, :inicializar_tablero, :set_carta_actual, :set_estado_juego, :salida_jugadores
     
   end
 end
