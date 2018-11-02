@@ -23,7 +23,9 @@ module ModeloQytetet
     
     
     def calcular_coste_cancelar
-      raise NotImplementedError
+      coste_alquiler = @alquiler_base + (num_casas * 0.5 + num_hoteles * 0.2)
+      @propietario.modificar_saldo(coste_alquiler)
+      return coste_alquiler
     end    
     
     
@@ -53,12 +55,12 @@ module ModeloQytetet
     
     
     def edificar_casa
-      raise NotImplementedError
+      @num_casas += @num_casas
     end
     
     
     def edificar_hotel
-      raise NotImplementedError
+      @num_hoteles += @num_hoteles
     end
 
     
@@ -68,7 +70,9 @@ module ModeloQytetet
     
     
     def pagar_alquiler
-      raise NotImplementedError
+      coste_alquiler = calcular_importe_alquiler
+      @propietario.modificar_saldo(-coste_alquiler)
+      return coste_alquiler
     end
     
     

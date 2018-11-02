@@ -39,7 +39,8 @@ module ModeloQytetet
     
     
     def pagar_alquiler
-      raise NotImplementedError
+      coste_alquiler = @titulo.pagar_alquiler
+      return coste_alquiler
     end
     
     

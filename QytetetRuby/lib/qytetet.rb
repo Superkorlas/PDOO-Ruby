@@ -35,13 +35,18 @@ module ModeloQytetet
       debo_pagar = @jugador_actual.debo_pagar_alquiler
       if debo_pagar
           @jugador_actual.pagar_alquiler
+          if @jugador_actual.saldo < 0
+            @estado_juego = EstadoJuego::ALGUNJUGADORENBANCARROTA
+          end
       end
       casilla = obtener_casilla_jugador_actual
       tengo_propietario = casilla.tengo_propietario
-      if tengo_propietario
-        @estado_juego = EstadoJuego::JA_PUEDEGESTIONAR
-      else
-        @estado_juego = EstadoJuego::JA_PUEDECOMPRAROGESTIONAR
+      if @estado_juego == EstadoJuego::ALGUNJUGADORENBANCARROTA
+        if tengo_propietario
+          @estado_juego = EstadoJuego::JA_PUEDEGESTIONAR
+        else
+          @estado_juego = EstadoJuego::JA_PUEDECOMPRAROGESTIONAR
+        end
       end
     end
     
@@ -57,39 +62,38 @@ module ModeloQytetet
         @jugador_actual.carta_libertad = @carta_actual
       else
         @mazo<< @carta_actual
-      end
-      
-      if @carta_actual.tipo == TipoSorpresa::PAGARCOBRAR
-        @jugador_actual.modificar_saldo(@carta_actual.valor)
-        if @jugador_actual.saldo < 0 
-          @estado_juego = EstadoJuego::ALGUNJUGADORENBANCARROTA
-        end
-      elsif @carta_actual.tipo == TipoSorpresa::IRACASILLA
-        valor = @carta_Actual.valor
-        casilla_carcel = @tablero.es_casilla_carcel(valor)
-        if casilla_carcel == true
-          encarcelar_jugador
-        else
-          mover(valor)
-        end
-      elsif @carta_actual.tipo == TipoSorpresa::PORCASAHOTEL
-        cantidad = @carta_actual.valor
-        numero_total = @jugador_actual.cuantas_casas_hoteles_tengo
-        @jugador_actual.modificar_saldo(cantidad * numero_total)
-        if @jugador_actual.saldo < 0 
-          @estado_juego = EstadoJuego::ALGUNJUGADORENBANCARROTA
-        end
-      elsif @carta_actual.tipo == TipoSorpresa::PORJUGADOR
-        for jugador in @jugadores
-          if jugador != @jugador_actual
-            jugador.modificar_saldo(@carta_actual.valor)
+        if @carta_actual.tipo == TipoSorpresa::PAGARCOBRAR
+          @jugador_actual.modificar_saldo(@carta_actual.valor)
+          if @jugador_actual.saldo < 0 
+            @estado_juego = EstadoJuego::ALGUNJUGADORENBANCARROTA
+          end
+        elsif @carta_actual.tipo == TipoSorpresa::IRACASILLA
+          valor = @carta_Actual.valor
+          casilla_carcel = @tablero.es_casilla_carcel(valor)
+          if casilla_carcel == true
+            encarcelar_jugador
+          else
+            mover(valor)
+          end
+        elsif @carta_actual.tipo == TipoSorpresa::PORCASAHOTEL
+          cantidad = @carta_actual.valor
+          numero_total = @jugador_actual.cuantas_casas_hoteles_tengo
+          @jugador_actual.modificar_saldo(cantidad * numero_total)
+          if @jugador_actual.saldo < 0 
+            @estado_juego = EstadoJuego::ALGUNJUGADORENBANCARROTA
+          end
+        elsif @carta_actual.tipo == TipoSorpresa::PORJUGADOR
+          for jugador in @jugadores
+            if jugador != @jugador_actual
+              jugador.modificar_saldo(@carta_actual.valor)
+            end
+            if @jugador.saldo < 0 
+              @estado_juego = EstadoJuego::ALGUNJUGADORENBANCARROTA
+            end
+            @jugador_actual.modificar_saldo(-@carta_actual.valor)
             if @jugador_actual.saldo < 0 
               @estado_juego = EstadoJuego::ALGUNJUGADORENBANCARROTA
             end
-          end
-          @jugador_actual.modificar_saldo(-@carta_actual.valor)
-          if @jugador_actual.saldo < 0 
-            @estado_juego = EstadoJuego::ALGUNJUGADORENBANCARROTA
           end
         end
       end
@@ -107,12 +111,24 @@ module ModeloQytetet
     
     
     def edificar_casa(numero_casilla)
-      raise NotImplementedError
+      casilla = @tablero.obtener_casilla_numero(numero_casilla)
+      titulo = casilla.titulo
+      edificada = @jugador_actual.edificar_casa(titulo)
+      if edificada
+        @estado_juego = EstadoJuego::JA_PUEDEGESTIONAR
+      end
+      return edificada
     end
     
     
     def edificar_hotel(numero_casilla)
-      raise NotImplementedError
+      casilla = @tablero.obtener_casilla_numero(numero_casilla)
+      titulo = casilla.titulo
+      edificada = @jugador_actual.edificar_hotel(titulo)
+      if edificada
+        @estado_juego = EstadoJuego::JA_PUEDEGESTIONAR
+      end
+      return edificada
     end
     
     
@@ -142,7 +158,7 @@ module ModeloQytetet
       mazo<< Sorpresa.new("Debes pagar tus deudas con el resto", 50, TipoSorpresa::PORJUGADOR)
       mazo<< Sorpresa.new("¡Tus casas y hoteles generan beneficios!", 100, TipoSorpresa::PORCASAHOTEL)
       mazo<< Sorpresa.new("Te toca pagar impuesto por tus casas y hoteles", 200, TipoSorpresa::PORCASAHOTEL)
-
+      mazo.shuffle
     end
     
     
@@ -166,7 +182,21 @@ module ModeloQytetet
     
     
     def intentar_salir_carcel(metodo)
-      raise NotImplementedError
+      if metodo == MetodoSalirCarcel::TIRANDODADO
+        resultado = tirar_dado
+        if resultado >= 5
+          @jugador_actual.encarcelado = false
+        end
+      elsif metodo == MetodoSalirCarcel::PAGANDOLIBERTAD
+        @jugador_actual.pagar_libertad(@@precio_libertad)
+      end
+      libre = @jugador_actual.encarcelado
+      if libre
+        @estado_juego = EstadoJuego::JA_ENCARCELADO
+      else
+        @estado_juego = EstadoJuego::JA_PREPARADO
+      end
+      return libre
     end
     
     

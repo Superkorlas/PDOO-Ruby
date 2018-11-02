@@ -63,12 +63,36 @@ module ModeloQytetet
     
     
     def edificar_casa(titulo)
-      raise NotImplementedError
+      num_casas = titulo.num_casas
+      edificada = false
+      hay_espacio = num_casas < 4
+      if hay_espacio
+        coste_edificar_casa = titulo.precio_edificar
+        tengo_saldo = tengo_saldo(coste_edificar_casa)
+        if tengo_saldo
+          titulo.edificar_casa
+          modificar_saldo(-coste_edificar_casa)
+          edificada = true
+        end
+      end
+      return edificada
     end
     
     
     def edificar_hotel(titulo)
-      raise NotImplementedError
+      num_hoteles = titulo.num_hoteles
+      edificada = false
+      hay_espacio = num_hoteles < 4
+      if hay_espacio
+        coste_edificar_hotel = titulo.precio_edificar
+        tengo_saldo = tengo_saldo(coste_edificar_hotel)
+        if tengo_saldo
+          titulo.edificar_hotel
+          modificar_saldo(-coste_edificar_hotel)
+          edificada = true
+        end
+      end
+      return edificada
     end
     
     
@@ -128,7 +152,8 @@ module ModeloQytetet
     
     
     def pagar_alquiler
-      raise NotImplementedError
+      coste_alquiler = @casilla_actual.pagar_alquiler
+      modificar_saldo(-coste_alquiler)
     end
     
     
@@ -138,7 +163,11 @@ module ModeloQytetet
     
     
     def pagar_libertad(cantidad)
-      raise NotImplementedError
+      tengo_saldo = tengo_saldo(cantidad)
+      if tengo_saldo
+        @encarcelado = false
+        modificar_saldo(-cantidad)
+      end
     end
     
     
