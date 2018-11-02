@@ -37,7 +37,15 @@ module ModeloQytetet
     
     
     def comprar_titulo_propiedad
-      raise NotImplementedError
+      comprado = false
+      coste_compra = @casilla_actual.coste
+      if(coste_compra < @saldo)
+        titulo = @casilla_actual.asignar_propietario(self)
+        @propiedades << titulo
+        modificar_saldo(-coste_compra)
+        comprado = true
+      end
+      return comprado
     end
     
     
@@ -51,7 +59,13 @@ module ModeloQytetet
     
     
     def debo_pagar_alquiler
-      raise NotImplementedError
+      
+        es_de_mi_propiedad   = es_de_mi_propiedad(@casilla_actual.titulo)
+        tiene_propietario    = @casilla_actual.tengo_propietario
+        p_encarcelado        = @casilla_actual.propietario_encarcelado
+        esta_hipotecada      = @casilla_actual.titulo.hipotecada
+
+        return(!es_de_mi_propiedad & tiene_propietario & !p_encarcelado & !esta_hipotecada);
     end
     
     
@@ -97,7 +111,8 @@ module ModeloQytetet
     
     
     def eliminar_de_mis_propiedades(titulo)
-      
+      @propiedades.delete(titulo)
+      titulo.propietario = nil
     end
     
     
@@ -117,12 +132,14 @@ module ModeloQytetet
     
     
     def hipotecar_propiedad(titulo)
-      raise NotImplementedError
+      coste_hipoteca = titulo.hipotecar
+      modificar_saldo(coste_hipoteca)
     end
     
     
     def ir_a_carcel(casilla)
-      raise NotImplementedError
+      @casilla_actual = casilla
+      @encarceladp = true
     end
     
     def modificar_saldo(modificacion)
@@ -189,8 +206,12 @@ module ModeloQytetet
     
     
     def vender_propiedad(casilla)
-      raise NotImplementedError
+      titulo = casilla.titulo
+      eliminar_de_mis_propiedades(titulo)
+      precio_venta = titulo.calcular_precio_venta
+      modificar_saldo(precio_venta)
     end
+    
     
 
     def to_s

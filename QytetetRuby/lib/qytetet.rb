@@ -52,7 +52,19 @@ module ModeloQytetet
     
     
     def actuar_si_en_casilla_no_edificable
-      raise NotImplementederror
+      @estado_juego = EstadoJuego::JA_PUEDEGESTIONAR
+      casilla_actual = @jugador_actual.casilla_actual
+      if(casilla_actual.tipo == TipoCasilla::IMPUESTO)
+        @jugador_actual.pagar_impuesto
+      else
+        if(casilla_actual.tipo == TipoCasilla::JUEZ)
+          encarcelarJugador
+        elsif(casilla_actual.tipo == TipoCasilla::SORPRESA)
+          @mazo.delete_at(0)
+          @estado_juego = EstadoJuego::JA_CONSORPRESA
+        end
+      end
+        
     end
     
     
@@ -106,7 +118,10 @@ module ModeloQytetet
     
     
     def comprar_titulo_propiedad
-      raise NotImplementedError
+      comprado = @jugador_actual.comprar_titulo_propiedad
+      if(comprado == true)
+        @estado_juego = EstadoJuego::JA_PUEDEGESTIONAR
+      end
     end
     
     
@@ -133,7 +148,15 @@ module ModeloQytetet
     
     
     def encarcelar_jugador
-      
+      if(!@jugador_actual.tengo_carta_libertad)
+        casilla_carcel = @tablero.carcel
+        @jugador_actual.ir_a_carcel(casilla_carcel)
+        @estado_juego = EstadoJuego::JA_ENCARCELADO
+      else
+        carta = @jugador_actual.devolver_carta_libertad
+        @mazo << carta
+        @estado_juego = EstadoJuego::JA_PUEDEGESTIONAR
+      end
     end
     
     
@@ -143,7 +166,10 @@ module ModeloQytetet
     
     
     def hipotecar_propiedad(numero_casilla)
-    
+      casilla = @tablero.obtener_casilla_numero(numero_casilla)
+      titulo = casilla.titulo
+      @jugador_actual.hipotecar_propiedad(titulo)
+      @estado_juego = EstadoJuego::JA_PUEDEGESTIONAR
     end
     
     
@@ -209,7 +235,19 @@ module ModeloQytetet
     
     
     def mover(num_casilla_destino)
-      raise NotImplementedError
+      casilla_inicial = @jugador_actual.casilla_actual
+      casilla_final = @tablero.obtener_casilla_numero(num_casilla_destino)
+      @jugador_actual.casilla_actual(casilla_final)
+      
+      if(num_casilla_destino<casilla_inicial.numero_casilla)
+        @jugador_actual.modificar_saldo(@@saldo_salida)
+      end
+      
+      if(casilla_final.soy_edificable)
+        actuar_si_en_casilla_edificable
+      else
+        actuar_si_en_casilla_no_edificable
+      end
     end
     
     
@@ -303,7 +341,9 @@ module ModeloQytetet
     
     
     def vender_propiedad(num_casilla)
-      raise NotImplementedError
+      casilla = @tablero.obtener_casilla_numero(numero_casilla)
+      @jugador_actual.vender_propiedad(casilla)
+      @estado_juego = EstadoJuego::JA_PUEDEGESTIONAR
     end
     
     def to_s

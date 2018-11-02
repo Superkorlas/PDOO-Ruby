@@ -30,7 +30,7 @@ module ModeloQytetet
     
     
     def calcular_coste_hipotecar
-      raise NotImplementedError
+      return (@hipoteca_base + (@num_casas * 0.5 * @hipoteca_base) + (@num_hoteles * @hipoteca_base))
     end
     
     
@@ -40,7 +40,7 @@ module ModeloQytetet
     
     
     def calcular_precio_venta
-      raise NotImplementedError
+      return (@precio_compra + ((@num_casas + @num_hoteles)*@precio_edificar * @factor_revalorizacion))
     end
     
     
@@ -65,7 +65,9 @@ module ModeloQytetet
 
     
     def hipotecar
-      raise NotImplementedError
+      coste_hipoteca = calcular_coste_hipotecar
+      @hipotecada = true
+      return coste_hipoteca
     end
     
     
