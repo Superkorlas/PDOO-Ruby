@@ -23,8 +23,7 @@ module ModeloQytetet
     
     
     def calcular_coste_cancelar
-      coste_alquiler = @alquiler_base + (num_casas * 0.5 + num_hoteles * 0.2)
-      @propietario.modificar_saldo(coste_alquiler)
+      coste_alquiler = calcular_coste_hipotecar * 1.1
       return coste_alquiler
     end    
     
@@ -45,7 +44,8 @@ module ModeloQytetet
     
     
     def cancelar_hipoteca
-      raise NotImplementedError
+      @hipotecada = false
+      return true
     end
     
     

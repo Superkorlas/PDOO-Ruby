@@ -32,7 +32,13 @@ module ModeloQytetet
     
     
     def cancelar_hipoteca(titulo)
-      raise NotImplementedError
+      coste = titulo.calcular_coste_cancelar
+      hipotecada = false
+      if(coste < @saldo)
+        modificar_saldo(-coste)
+        hipotecada = titulo.cancelar_hipoteca
+      end
+      return hipotecada
     end
     
     

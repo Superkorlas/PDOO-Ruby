@@ -113,7 +113,10 @@ module ModeloQytetet
 
     
     def cancelar_hipoteca(numero_casilla)
-      raise NotImplementederror
+      casilla = @tablero.obtener_casilla_numero(numero_casilla)
+      resultado = @jugador_actual.cancelar_hipoteca(casilla.titulo)
+      @estado_juego = EstadoJuego::JA_PUEDEGESTIONAR
+      return resultado
     end
     
     
