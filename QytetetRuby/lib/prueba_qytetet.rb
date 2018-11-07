@@ -17,18 +17,12 @@ module ModeloQytetet
       puts "===========Robin Costas del Moral==========="
       puts "============================================"
       
-      nombres = Array.new
-      nombres = get_nombre_jugadores
+      nombres = ['Plata','Robin','Charo','Angela']
       
       @@juego.inicializar_juego(nombres)
       
-      puts "Esta partida la jugarán: " 
-      for jugador in @@juego.jugadores
-        puts jugador
-      end
       
-      puts "Estado del juego:"
-      puts @@juego
+      self.test_mover_jugadores
       
     end
     
@@ -81,8 +75,26 @@ module ModeloQytetet
       end
       return resultado
     end
+      
+    def self.test_mover_jugadores
+      
+      @@juego.mover(1)
+
+      @@juego.siguiente_jugador
+      @@juego.mover(2)
+
+      @@juego.siguiente_jugador
+      @@juego.mover(3)
+
+      @@juego.siguiente_jugador
+      @@juego.mover(4)
+      
+      puts @@juego.jugadores.join
+
+    end
     
   end
+
   
   PruebaQytetet.main()
   
