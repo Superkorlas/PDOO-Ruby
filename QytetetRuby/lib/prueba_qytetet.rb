@@ -22,7 +22,7 @@ module ModeloQytetet
       @@juego.inicializar_juego(nombres)
       
       
-      self.test_comprar_calle
+      self.test_jugador_encarcelado_no_cobra
       
     end
     
@@ -78,9 +78,23 @@ module ModeloQytetet
       
     def self.test_mover_jugadores
       
-      for i in 0..3
-        test_aplicar_sorpresa
-      end
+      @@juego.tirar_dado
+      @@juego.mover(@@juego.valor_dado)
+      @@juego.siguiente_jugador
+      
+      @@juego.tirar_dado
+      @@juego.mover(@@juego.valor_dado)
+      @@juego.siguiente_jugador
+      
+      @@juego.tirar_dado
+      @@juego.mover(@@juego.valor_dado)
+      @@juego.siguiente_jugador
+      
+      @@juego.tirar_dado
+      @@juego.mover(@@juego.valor_dado)
+      @@juego.siguiente_jugador
+      
+      puts @@juego.jugadores.join
 
     end
     
@@ -92,16 +106,55 @@ module ModeloQytetet
       @@juego.siguiente_jugador
     end
     
-    def self.test_comprar_calle
+    def self.test_comprar_calle_cobrar
       @@juego.mover(1)
-      #puts "He podido comprar? #{@@juego.comprar_titulo_propiedad}"
+      puts "He podido comprar? #{@@juego.comprar_titulo_propiedad}"
       @@juego.siguiente_jugador
       @@juego.mover(1)
       puts @@juego.jugadores.join
     end
+    
+    def self.test_edificar_casa_cobrar
+      @@juego.mover(1)
+      @@juego.comprar_titulo_propiedad
+      @@juego.edificar_casa(1)
+      @@juego.siguiente_jugador
+      @@juego.mover(1)
+      puts @@juego.jugadores.join
+    end
+    
+    def self.test_hipotecar_e_intentar_cobrar
+      @@juego.mover(1)
+      @@juego.comprar_titulo_propiedad
+      @@juego.hipotecar_propiedad(1)
+      @@juego.siguiente_jugador
+      @@juego.mover(1)
+      puts @@juego.jugadores.join
+    end
+    
+    def self.test_cancelar_hipoteca_cobrar
+      @@juego.mover(1)
+      @@juego.comprar_titulo_propiedad
+      @@juego.hipotecar_propiedad(1)
+      @@juego.cancelar_hipoteca(1)
+      @@juego.siguiente_jugador
+      @@juego.mover(1)
+      puts @@juego.jugadores.join
+    end
+    
+    def self.test_jugador_encarcelado_no_cobra
+      @@juego.mover(1)
+      @@juego.comprar_titulo_propiedad
+      @@juego.mover(15)   # movemos jugador a la casilla del juez para que vaya a la carcel
+      
+      @@juego.siguiente_jugador
+      @@juego.mover(1)
+      
+      puts @@juego.jugadores.join
+    end
+    
+    
   end
-
-  
   PruebaQytetet.main()
   
 end

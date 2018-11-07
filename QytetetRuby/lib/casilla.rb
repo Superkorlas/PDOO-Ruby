@@ -35,6 +35,7 @@ module ModeloQytetet
     
     def asignar_propietario(jugador)
       @titulo.propietario = jugador
+      return @titulo
     end
     
     

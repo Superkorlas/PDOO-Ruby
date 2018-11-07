@@ -7,7 +7,9 @@ module ModeloQytetet
   require_relative "jugador"
   require_relative "sorpresa"
   require_relative "tipo_sorpresa"
+  require_relative "tablero"
   require_relative "estado_juego"
+  require_relative "dado"
   require "singleton"
   
   class Qytetet
@@ -22,6 +24,7 @@ module ModeloQytetet
       @jugador_actual = nil
       @carta_actual = nil
       @estado_juego = nil
+      @dado = Dado.instance
       
       @@max_jugadores = 4
       @@num_sorpresas = 20
@@ -58,7 +61,7 @@ module ModeloQytetet
         @jugador_actual.pagar_impuesto
       else
         if(casilla_actual.tipo == TipoCasilla::JUEZ)
-          encarcelarJugador
+          encarcelar_jugador
         elsif(casilla_actual.tipo == TipoCasilla::SORPRESA)
           @carta_actual = @mazo.at(0)
           @mazo.delete_at(0)

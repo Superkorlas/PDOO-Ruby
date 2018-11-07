@@ -13,7 +13,7 @@ module ModeloQytetet
     end
     
     def tirar
-      @valor = rand(6)
+      @valor = rand(6)+1
       return @valor 
     end
     

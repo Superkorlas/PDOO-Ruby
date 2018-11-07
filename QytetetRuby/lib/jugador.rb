@@ -163,7 +163,7 @@ module ModeloQytetet
     def obtener_capital
       saldo_total = @saldo
       for propiedad in @propiedades
-          saldo_total += (propiedad.precio_compra +(propiedad.num_casas + propiedad.num_hoteles)) * propiedad.precio_edificar
+          saldo_total += (propiedad.precio_compra() +(propiedad.num_casas() + propiedad.num_hoteles())) * propiedad.precio_edificar()
       end
       return saldo_total
     end

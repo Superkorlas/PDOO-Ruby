@@ -34,7 +34,8 @@ module ModeloQytetet
     
     
     def calcular_importe_alquiler
-      return (@alquiler_base * (@num_casas*0.5 + @num_hoteles*2))
+      puts "DEBO PAGAR: #{(@alquiler_base + @alquiler_base * (@num_casas*0.2 + @num_hoteles*0.5))}"
+      return (@alquiler_base + @alquiler_base * (@num_casas*0.2 + @num_hoteles*0.5))
     end
     
     
@@ -55,12 +56,12 @@ module ModeloQytetet
     
     
     def edificar_casa
-      @num_casas += @num_casas
+      @num_casas += 1
     end
     
     
     def edificar_hotel
-      @num_hoteles += @num_hoteles
+      @num_hoteles += 1
     end
 
     
@@ -73,7 +74,7 @@ module ModeloQytetet
     
     def pagar_alquiler
       coste_alquiler = calcular_importe_alquiler
-      @propietario.modificar_saldo(-coste_alquiler)
+      @propietario.modificar_saldo(coste_alquiler)
       return coste_alquiler
     end
     
