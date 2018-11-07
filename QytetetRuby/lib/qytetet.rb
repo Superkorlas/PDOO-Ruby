@@ -128,6 +128,7 @@ module ModeloQytetet
       if(comprado == true)
         @estado_juego = EstadoJuego::JA_PUEDEGESTIONAR
       end
+      return comprado
     end
     
     

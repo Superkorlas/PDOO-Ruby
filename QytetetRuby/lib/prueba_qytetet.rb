@@ -94,7 +94,7 @@ module ModeloQytetet
     
     def self.test_comprar_calle
       @@juego.mover(1)
-      puts "He podido comprar? #{@@juego.comprar_titulo_propiedad}"
+      #puts "He podido comprar? #{@@juego.comprar_titulo_propiedad}"
       @@juego.siguiente_jugador
       @@juego.mover(1)
       puts @@juego.jugadores.join
