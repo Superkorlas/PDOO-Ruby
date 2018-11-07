@@ -4,7 +4,6 @@
 
 module ModeloQytetet
   class Jugador
-    include Comparable
     
     attr_reader :nombre, :saldo, :propiedades
     attr_accessor :encarcelado, :carta_libertad, :casilla_actual
@@ -66,12 +65,19 @@ module ModeloQytetet
     
     def debo_pagar_alquiler
       
-        es_de_mi_propiedad   = es_de_mi_propiedad(@casilla_actual.titulo)
-        tiene_propietario    = @casilla_actual.tengo_propietario
-        p_encarcelado        = @casilla_actual.propietario_encarcelado
-        esta_hipotecada      = @casilla_actual.titulo.hipotecada
+        es_de_mi_propiedad = es_de_mi_propiedad(@casilla_actual.titulo)
+        if(!es_de_mi_propiedad)
+          tiene_propietario = @casilla_actual.tengo_propietario
+          if(tiene_propietario)
+            p_encarcelado = @casilla_actual.propietario_encarcelado
+            if(!p_encarcelado)
+              esta_hipotecada = @casilla_actual.titulo.hipotecada
+              return !esta_hipotecada
+            end
+          end
+        end
 
-        return(!es_de_mi_propiedad & tiene_propietario & !p_encarcelado & !esta_hipotecada);
+        return false
     end
     
     
@@ -133,7 +139,7 @@ module ModeloQytetet
     
     
     def estoy_en_calle_libre
-      raise NotImplementedError
+      return @casilla_actual.tengo_propietario
     end
     
     
@@ -145,7 +151,7 @@ module ModeloQytetet
     
     def ir_a_carcel(casilla)
       @casilla_actual = casilla
-      @encarceladp = true
+      @encarcelado = true
     end
     
     def modificar_saldo(modificacion)
@@ -157,7 +163,7 @@ module ModeloQytetet
     def obtener_capital
       saldo_total = @saldo
       for propiedad in @propiedades
-          saldo_total += propiedad.precio_compra + (propiedad.num_casas + propiedad.num_hoteles) * propiedad.precio_edificacion
+          saldo_total += (propiedad.precio_compra +(propiedad.num_casas + propiedad.num_hoteles)) * propiedad.precio_edificar
       end
       return saldo_total
     end
