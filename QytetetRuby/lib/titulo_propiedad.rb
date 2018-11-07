@@ -5,8 +5,8 @@
 module ModeloQytetet
   
   class TituloPropiedad
-    attr_reader :nombre,:hipotecada,:precio_compra,:alquiler_base,:factor_revalorizacion,:hipoteca_base,:precio_edificar,:num_hoteles,:num_casas
-    attr_accessor :hipotecada, :propietario
+    attr_reader :nombre,:hipotecada,:alquiler_base,:factor_revalorizacion,:hipoteca_base,:precio_edificar,:num_hoteles,:num_casas
+    attr_accessor :hipotecada, :propietario,:precio_compra
     
     def initialize(nombre,precioCompra,alquilerBase,factorRevalorizacion,hipotecaBase,precioEdificar)
        @nombre=nombre
@@ -34,7 +34,7 @@ module ModeloQytetet
     
     
     def calcular_importe_alquiler
-      raise NotImplementedError
+      return (@alquiler_base * (@num_casas*0.5 + @num_hoteles*2))
     end
     
     

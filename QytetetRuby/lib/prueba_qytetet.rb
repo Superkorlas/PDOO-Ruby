@@ -22,7 +22,7 @@ module ModeloQytetet
       @@juego.inicializar_juego(nombres)
       
       
-      self.test_mover_jugadores
+      self.test_comprar_calle
       
     end
     
@@ -78,21 +78,27 @@ module ModeloQytetet
       
     def self.test_mover_jugadores
       
-      @@juego.mover(1)
-
-      @@juego.siguiente_jugador
-      @@juego.mover(2)
-
-      @@juego.siguiente_jugador
-      @@juego.mover(3)
-
-      @@juego.siguiente_jugador
-      @@juego.mover(4)
-      
-      puts @@juego.jugadores.join
+      for i in 0..3
+        test_aplicar_sorpresa
+      end
 
     end
     
+    def self.test_aplicar_sorpresa
+      @@juego.mover(7)
+      @@juego.aplicar_sorpresa
+      puts @@juego.carta_actual.to_s
+      puts @@juego.jugador_actual.to_s
+      @@juego.siguiente_jugador
+    end
+    
+    def self.test_comprar_calle
+      @@juego.mover(1)
+      puts "He podido comprar? #{@@juego.comprar_titulo_propiedad}"
+      @@juego.siguiente_jugador
+      @@juego.mover(1)
+      puts @@juego.jugadores.join
+    end
   end
 
   

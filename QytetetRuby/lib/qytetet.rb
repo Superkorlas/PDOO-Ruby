@@ -60,8 +60,10 @@ module ModeloQytetet
         if(casilla_actual.tipo == TipoCasilla::JUEZ)
           encarcelarJugador
         elsif(casilla_actual.tipo == TipoCasilla::SORPRESA)
+          @carta_actual = @mazo.at(0)
           @mazo.delete_at(0)
           @estado_juego = EstadoJuego::JA_CONSORPRESA
+   
         end
       end
         
@@ -80,8 +82,9 @@ module ModeloQytetet
             @estado_juego = EstadoJuego::ALGUNJUGADORENBANCARROTA
           end
         elsif @carta_actual.tipo == TipoSorpresa::IRACASILLA
-          valor = @carta_Actual.valor
+          valor = @carta_actual.valor
           casilla_carcel = @tablero.es_casilla_carcel(valor)
+          
           if casilla_carcel == true
             encarcelar_jugador
           else
@@ -98,13 +101,13 @@ module ModeloQytetet
           for jugador in @jugadores
             if jugador != @jugador_actual
               jugador.modificar_saldo(@carta_actual.valor)
-            end
-            if @jugador.saldo < 0 
-              @estado_juego = EstadoJuego::ALGUNJUGADORENBANCARROTA
-            end
-            @jugador_actual.modificar_saldo(-@carta_actual.valor)
-            if @jugador_actual.saldo < 0 
-              @estado_juego = EstadoJuego::ALGUNJUGADORENBANCARROTA
+              if jugador.saldo < 0 
+                @estado_juego = EstadoJuego::ALGUNJUGADORENBANCARROTA
+              end
+              @jugador_actual.modificar_saldo(-@carta_actual.valor)
+              if @jugador_actual.saldo < 0 
+                @estado_juego = EstadoJuego::ALGUNJUGADORENBANCARROTA
+              end
             end
           end
         end
@@ -178,28 +181,29 @@ module ModeloQytetet
     
     def inicializar_cartas_sorpresa    
       mazo<< Sorpresa.new("De vuelta al pricipio, vuelves a la casilla de salida", 0, TipoSorpresa::IRACASILLA)
-      mazo<< Sorpresa.new("Que suerte, te vas a la carcel", 0, TipoSorpresa::IRACASILLA)
-      mazo<< Sorpresa.new("Poca broma, te vas a la ultima casilla del juego", 0, TipoSorpresa::IRACASILLA)
-      mazo<< Sorpresa.new("Felicidades maquina, recibes dinero de todos por tu cumple", 50, TipoSorpresa::PAGARCOBRAR)
+      mazo<< Sorpresa.new("Que suerte, te vas a la carcel", @tablero.carcel.numero_casilla, TipoSorpresa::IRACASILLA)
+      mazo<< Sorpresa.new("Poca broma, te vas a la ultima casilla del juego", @tablero.casillas.size()-1, TipoSorpresa::IRACASILLA)
+      mazo<< Sorpresa.new("Felicidades maquina, recibes dinero por tu cumple", 50, TipoSorpresa::PAGARCOBRAR)
       mazo<< Sorpresa.new("Vaya, te toca pagar a todos por moroso", 100, TipoSorpresa::PAGARCOBRAR)
       mazo<< Sorpresa.new("Al margen de la ley", 0, TipoSorpresa::SALIRCARCEL)
       mazo<< Sorpresa.new("Todos te pagan", 100, TipoSorpresa::PORJUGADOR)
       mazo<< Sorpresa.new("Debes pagar tus deudas con el resto", 50, TipoSorpresa::PORJUGADOR)
       mazo<< Sorpresa.new("¡Tus casas y hoteles generan beneficios!", 100, TipoSorpresa::PORCASAHOTEL)
       mazo<< Sorpresa.new("Te toca pagar impuesto por tus casas y hoteles", 200, TipoSorpresa::PORCASAHOTEL)
-      mazo.shuffle
+      mazo.shuffle!
     end
     
     
     def inicializar_juego(nombres)
       inicializar_jugadores(nombres)
-      inicializar_tablero()
-      inicializar_cartas_sorpresa()
+      inicializar_tablero
+      inicializar_cartas_sorpresa
+      salida_jugadores
     end
     
     
     def inicializar_jugadores(nombres)
-      for nombre in nombres do
+      for nombre in nombres
         @jugadores<< Jugador.new(nombre)
       end
     end
@@ -240,7 +244,7 @@ module ModeloQytetet
     def mover(num_casilla_destino)
       casilla_inicial = @jugador_actual.casilla_actual
       casilla_final = @tablero.obtener_casilla_numero(num_casilla_destino)
-      @jugador_actual.casilla_actual(casilla_final)
+      @jugador_actual.casilla_actual=casilla_final
       
       if(num_casilla_destino<casilla_inicial.numero_casilla)
         @jugador_actual.modificar_saldo(@@saldo_salida)
@@ -255,17 +259,25 @@ module ModeloQytetet
     
     
     def obtener_casilla_jugador_actual
-      raise NotImplementedError
+      return @jugador_actual.casilla_actual
     end
     
     
     def obtener_casillas_tablero
-      raise NotImplementedError
+      return @tablero.casillas
     end
     
     
     def obtener_propiedades_jugador
-      raise NotImplementedError
+      resultado = Array.new
+      for propiedad in @jugador_actual.propiedades
+        for casilla in @tablero.casillas
+          if(casilla.titulo == propiedad)
+            resultado<< casilla.numero_casilla
+          end
+        end
+      end
+      return resultado
     end
     
     
@@ -275,7 +287,7 @@ module ModeloQytetet
       resultado = Array.new
       for propiedad in propiedades
         for casilla in @tablero.casillas
-          if casilla.tipo == TipoCasilla::CALLE
+          if(casilla.titulo == propiedad)
             resultado<< casilla.numero_casilla
           end
         end
@@ -303,7 +315,7 @@ module ModeloQytetet
     
     def salida_jugadores
       for jugador in @jugadores
-        jugador.casilla_actual = 0
+        jugador.casilla_actual = @tablero.obtener_casilla_numero(0)
       end
       num_aleatorio = rand(@jugadores.size)
       @jugador_actual = @jugadores.at(num_aleatorio)
@@ -320,17 +332,9 @@ module ModeloQytetet
     
     
     def siguiente_jugador
-      num_jugador = 0
-      num = 0
-      for jugador in @jugadores
-        if (jugador == @jugador_actual)
-          num_jugador = num
-        end
-        num += 1
-      end
-      @jugador_actual = @jugadores.at((num_jugador+1)%@jugadores.size)
+      @jugador_actual = @jugadores.at((@jugadores.index(@jugador_actual)+1)%@jugadores.size)
       #Actualizamos el estado del juego
-      if (@jugador.encarcelado)
+      if (@jugador_actual.encarcelado)
         @estado_juego = EstadoJuego::JA_ENCARCELADOCONOPCIONDELIBERTAD
       else
         @estado_juego = EstadoJuego::JA_PREPARADO

@@ -14,7 +14,7 @@ module ModeloQytetet
     def initialize(numeroCasilla, tipo , titulo )
       @numero_casilla=numeroCasilla
       if (tipo != nil) # Si recibe tipo
-        @coste=-1
+        @coste=500
         @tipo=tipo
         @titulo=nil
       else # Si no recibe tipo
