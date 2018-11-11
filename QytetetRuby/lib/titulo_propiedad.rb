@@ -62,6 +62,7 @@ module ModeloQytetet
     
     def edificar_hotel
       @num_hoteles += 1
+      @num_casas -= 4
     end
 
     

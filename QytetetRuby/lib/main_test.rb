@@ -55,6 +55,19 @@ module Test
         @@juego.mover(1)
         puts @@juego.jugadores.join
       end
+      
+      def self.test_edificar_hotel_cobrar
+      @@juego.mover(1)
+      @@juego.comprar_titulo_propiedad
+      @@juego.edificar_casa(1)
+      @@juego.edificar_casa(1)
+      @@juego.edificar_casa(1)
+      @@juego.edificar_casa(1)
+      @@juego.edificar_hotel(1)
+      @@juego.siguiente_jugador
+      @@juego.mover(1)
+      puts @@juego.jugadores.join
+    end
 
       def self.test_hipotecar_e_intentar_cobrar
         @@juego.mover(1)
@@ -90,8 +103,8 @@ module Test
         @@juego = ModeloQytetet::Qytetet.instance
         nombres = ['Plata','Robin','Charo','Angela']
         @@juego.inicializar_juego(nombres)
-        puts "pon aqui los test que deseas realizar"
-        test_mover_jugadores
+        #Pon aqui los test que deseas realizar
+        test_edificar_hotel_cobrar
       end
     
     end

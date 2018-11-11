@@ -21,8 +21,8 @@ module ModeloQytetet
       
       @@juego.inicializar_juego(nombres)
       
-      
-      self.test_jugador_encarcelado_no_cobra
+      #Test a ejecutar.
+      self.test_edificar_hotel_cobrar
       
     end
     
@@ -118,6 +118,19 @@ module ModeloQytetet
       @@juego.mover(1)
       @@juego.comprar_titulo_propiedad
       @@juego.edificar_casa(1)
+      @@juego.siguiente_jugador
+      @@juego.mover(1)
+      puts @@juego.jugadores.join
+    end
+    
+    def self.test_edificar_hotel_cobrar
+      @@juego.mover(1)
+      @@juego.comprar_titulo_propiedad
+      @@juego.edificar_casa(1)
+      @@juego.edificar_casa(1)
+      @@juego.edificar_casa(1)
+      @@juego.edificar_casa(1)
+      @@juego.edificar_hotel(1)
       @@juego.siguiente_jugador
       @@juego.mover(1)
       puts @@juego.jugadores.join
