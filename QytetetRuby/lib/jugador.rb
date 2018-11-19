@@ -17,6 +17,15 @@ module ModeloQytetet
       @propiedades=Array.new
     end
     
+    def copia_atributos(jugador)
+      @nombre=jugador.nombre
+      @saldo=jugador.saldo
+      @encarcelado=jugador.encarcelado 
+      @carta_libertad=jugador.carta_libertad
+      @casilla_actual=jugador.casilla_actual
+      @propiedades=jugador.propiedades
+    end
+    
     def <=> (otro_jugador)
       otro_capital = otro_jugador.obtener_capital
       mi_capital = obtener_capital
@@ -29,6 +38,28 @@ module ModeloQytetet
       return 0
     end
     
+    def convertirme (fianza)
+      especulador = Especulador.new(self, fianza)
+      return especulador
+    end
+    
+    def debo_ir_a_carcel
+      encarcelar = false
+      
+      return encarcelar
+    end
+    
+    def puedo_edificar_casa(titulo)
+      puedo_edificar = false
+      
+      return puedo_edificar
+    end
+    
+    def puedo_edificar_hotel(titulo)
+      puedo_edificar = false
+      
+      return puedo_edificar
+    end
     
     def cancelar_hipoteca(titulo)
       coste = titulo.calcular_coste_cancelar
@@ -231,7 +262,8 @@ module ModeloQytetet
       return "\nJugador: nombre=#{@nombre}, saldo=#{@saldo}, capital total=#{obtener_capital} propiedades=#{@propiedades}, casilla_actual= #{@casilla_actual}, encarcelado= #{@encarcelado}, carta_libertad=#{@carta_libertad}"
     end
     
-    private :eliminar_de_mis_propiedades, :es_de_mi_propiedad, :tengo_saldo
+    private :eliminar_de_mis_propiedades, :es_de_mi_propiedad
+    protected :tengo_saldo, :convertirme
     
   end
 end

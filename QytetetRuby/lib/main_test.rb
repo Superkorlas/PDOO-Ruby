@@ -3,6 +3,7 @@
 # and open the template in the editor.
 require_relative 'qytetet'
 require_relative 'jugador'
+require_relative 'especulador'
   
 module Test
   class MainTest
@@ -97,14 +98,21 @@ module Test
         @@juego.mover(1)
 
         puts @@juego.jugadores.join
-      end   
+      end
+      
+      def self.test_enviar_carcel_jugador_especulativo
+        jugador = ModeloQytetet::Jugador.new("Especulador")
+        especulador = ModeloQytetet::Especulador.new(jugador, 100)
+        especulador.ir_a_carcel(5)
+        puts especulador
+      end
       
       def self.ejecutar_tests
         @@juego = ModeloQytetet::Qytetet.instance
         nombres = ['Plata','Robin','Charo','Angela']
         @@juego.inicializar_juego(nombres)
         #Pon aqui los test que deseas realizar
-        test_edificar_hotel_cobrar
+        test_enviar_carcel_jugador_especulativo
       end
     
     end
