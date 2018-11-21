@@ -13,31 +13,46 @@ module ModeloQytetet
     end
     
     def pagar_impuesto (cantidad)
-      
+      @saldo -= (@casilla_actual.coste / 2)
     end
     
     def convertirme(fianza)
-      
+      return self
     end
     
     def debo_ir_a_carcel
-      encarcelar = false
-      
-      return encarcelar
+      return super() && !pagar_fianza
     end
     
     def pagar_fianza
-      
+      if @fianza <= @saldo
+        @saldo -= @fianza
+        return true
+      else 
+        return false
+      end
     end
     
     def puedo_edificar_casa(titulo)
       puedo_edificar = false
+      
+      if tengo_saldo(titulo.precio_edificar)
+        if titulo.num_casas < 8
+          puedo_edificar = true
+        end
+      end
       
       return puedo_edificar
     end
     
     def puedo_edificar_hotel(titulo)
       puedo_edificar = false
+      
+      if tengo_saldo(titulo.precio_edificar)
+        if titulo.num_hoteles < 8 && titulo.num_casas >= 4
+          puedo_edificar = true
+        end
+      end
       
       return puedo_edificar
     end
@@ -51,6 +66,10 @@ module ModeloQytetet
           modificar_saldo(-@fianza)
         end
       end
+    end
+    
+    def to_s
+      return super() + ", fianza=#{@fianza}"
     end
     
     private :pagar_fianza

@@ -43,20 +43,30 @@ module ModeloQytetet
       return especulador
     end
     
-    def debo_ir_a_carcel
-      encarcelar = false
-      
-      return encarcelar
+    def debo_ir_a_carcel      
+      return !tengo_carta_libertad
     end
     
     def puedo_edificar_casa(titulo)
       puedo_edificar = false
+      
+      if tengo_saldo(titulo.precio_edificar)
+        if titulo.num_casas < 4
+          puedo_edificar = true
+        end
+      end
       
       return puedo_edificar
     end
     
     def puedo_edificar_hotel(titulo)
       puedo_edificar = false
+      
+      if tengo_saldo(titulo.precio_edificar)
+        if titulo.num_hoteles < 4 && titulo.num_casas >= 4
+          puedo_edificar = true
+        end
+      end
       
       return puedo_edificar
     end
@@ -120,35 +130,22 @@ module ModeloQytetet
     
     
     def edificar_casa(titulo)
-      num_casas = titulo.num_casas
       edificada = false
-      hay_espacio = num_casas < 4
-      if hay_espacio
-        coste_edificar_casa = titulo.precio_edificar
-        tengo_saldo = tengo_saldo(coste_edificar_casa)
-        if tengo_saldo
-          titulo.edificar_casa
-          modificar_saldo(-coste_edificar_casa)
-          edificada = true
-        end
+      if puedo_edificar_casa(titulo)
+        titulo.edificar_casa
+        modificar_saldo(-titulo.precio_edificar)
+        edificada = true
       end
       return edificada
     end
     
     
     def edificar_hotel(titulo)
-      num_hoteles = titulo.num_hoteles
-      num_casas = titulo.num_casas
       edificada = false
-      hay_espacio = num_hoteles < 4 && num_casas >= 4
-      if hay_espacio
-        coste_edificar_hotel = titulo.precio_edificar
-        tengo_saldo = tengo_saldo(coste_edificar_hotel)
-        if tengo_saldo
-          titulo.edificar_hotel
-          modificar_saldo(-coste_edificar_hotel)
-          edificada = true
-        end
+      if puedo_edificar_hotel(titulo)
+        titulo.edificar_hotel
+        modificar_saldo(-titulo.precio_edificar)
+        edificada = true
       end
       return edificada
     end
@@ -263,7 +260,7 @@ module ModeloQytetet
     end
     
     private :eliminar_de_mis_propiedades, :es_de_mi_propiedad
-    protected :tengo_saldo, :convertirme
+    #protected :tengo_saldo, :convertirme
     
   end
 end
