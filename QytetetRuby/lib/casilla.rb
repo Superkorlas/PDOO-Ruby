@@ -8,70 +8,18 @@ module ModeloQytetet
   require_relative "tipo_casilla"
   
   class Casilla
-      attr_reader :numero_casilla, :coste, :tipo, :titulo
-      #attr_writer :titulo
+    attr_reader :numero_casilla
+    attr_accessor :coste
   
-    def initialize(numeroCasilla, tipo , titulo )
+    def initialize(numeroCasilla)
       @numero_casilla=numeroCasilla
-      if (tipo != nil) # Si recibe tipo
-        @coste=500
-        @tipo=tipo
-        @titulo=nil
-      else # Si no recibe tipo
-        @titulo=titulo
-        @tipo = TipoCasilla::CALLE
-        @coste = titulo.precio_compra
-      end
-    end
-    
-    def self.create_calle(numeroCasilla, titulo)
-      new(numeroCasilla, nil, titulo)
-    end
-    
-    def self.create_no_calle(numeroCasilla, tipo)
-      new(numeroCasilla, tipo, nil)
-    end
-    
-    
-    def asignar_propietario(jugador)
-      @titulo.propietario = jugador
-      return @titulo
-    end
-    
-    
-    def pagar_alquiler
-      coste_alquiler = @titulo.pagar_alquiler
-      return coste_alquiler
-    end
-    
-    
-    def propietario_encarcelado
-      return @titulo.propietario_encarcelado
-    end
-    
-    def set_titulo(nuevo_titulo)
-      @titulo = nuevo_titulo
-    end
-    
+      @coste=500
+    end    
     
     def soy_edificable
-      return (@tipo == TipoCasilla::CALLE)
+      return false
     end
-    
-    
-    def tengo_propietario
-      return @titulo.tengo_propietario
-    end
-    
-    def to_s
-      if(@tipo == TipoCasilla::CALLE)
-        return "tipo: #{@tipo}, numeroCasilla: #{@numero_casilla}, coste: #{@coste}, @titulo: #{@titulo}"
-      else
-        return "tipo: #{@tipo}, numeroCasilla: #{@numero_casilla}"
-      end
-    end
-    
-    private :set_titulo
+   
   end
 
 end
