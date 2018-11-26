@@ -114,7 +114,7 @@ module ModeloQytetet
             end
           end
         elsif @carta_actual.tipo == TipoSorpresa::CONVERTIRME
-          especulador = @jugador_actual.convertirme(@carta_actual.valor) #Da fallo, ya que convertirme es protected
+          especulador = @jugador_actual.convertirme(@carta_actual.valor)
           @jugadores[@jugadores.index(@jugador_actual)] = especulador
           @jugador_actual = especulador
         end

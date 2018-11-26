@@ -218,10 +218,10 @@ module Test
         nombres = ['Plata','Robin','Charo','Angela']
         @@juego.inicializar_juego(nombres)
         #Pon aqui los test que deseas realizar
-        #test_especulador_compra_seis_casas
+        test_especulador_compra_seis_casas
         #test_especulador_intenta_comprar_nueve_casas
         #test_especulador_compra_seis_hoteles
-        test_especulador_intenta_comprar_nueve_hoteles
+        #test_especulador_intenta_comprar_nueve_hoteles
       end
     
     end

@@ -260,7 +260,7 @@ module ModeloQytetet
     end
     
     private :eliminar_de_mis_propiedades, :es_de_mi_propiedad
-    #protected :tengo_saldo, :convertirme
+    protected :tengo_saldo, :debo_ir_a_carcel
     
   end
 end
