@@ -12,5 +12,9 @@ module ModeloQytetet
       @tipo = tipo      
     end
     
+    def to_s
+      return "tipo: #{@tipo}, numeroCasilla: #{@numero_casilla}"
+    end
+    
   end
 end
