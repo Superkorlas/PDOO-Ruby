@@ -7,12 +7,7 @@ module VistatextualQytetet
   class VistaTextualQytetet
     def initialize
       @controlador = ControladorQytetet.instance
-    end
-    
-    def obtener_jugadores
-      
-    end
-    
+    end 
     
     def elegir_casilla(opcion_menu)
       lista = @controlador.obtener_casillas_validas(opcion_menu)
