@@ -16,7 +16,7 @@ module ModeloQytetet
     include Singleton
     
     attr_reader :mazo, :jugadores, :max_jugadores, :num_sorpresas, :num_casillas, :precio_libertad, :saldo_salida, :dado, :jugador_actual, :carta_actual
-    attr_accessor :tablero, :estadoJuego
+    attr_accessor :tablero, :estado_juego
     
     def initialize
       @mazo=Array.new
@@ -44,7 +44,7 @@ module ModeloQytetet
       end
       casilla = obtener_casilla_jugador_actual
       tengo_propietario = casilla.tengo_propietario
-      if @estado_juego == EstadoJuego::ALGUNJUGADORENBANCARROTA
+      if @estado_juego != EstadoJuego::ALGUNJUGADORENBANCARROTA
         if tengo_propietario
           @estado_juego = EstadoJuego::JA_PUEDEGESTIONAR
         else
@@ -188,17 +188,17 @@ module ModeloQytetet
     
     
     def inicializar_cartas_sorpresa    
-    #  mazo<< Sorpresa.new("De vuelta al pricipio, vuelves a la casilla de salida", 0, TipoSorpresa::IRACASILLA)
-    #  mazo<< Sorpresa.new("Que suerte, te vas a la carcel", @tablero.carcel.numero_casilla, TipoSorpresa::IRACASILLA)
-    #  mazo<< Sorpresa.new("Poca broma, te vas a la ultima casilla del juego", @tablero.casillas.size()-1, TipoSorpresa::IRACASILLA)
-    #  mazo<< Sorpresa.new("Felicidades maquina, recibes dinero por tu cumple", 50, TipoSorpresa::PAGARCOBRAR)
-    #  mazo<< Sorpresa.new("Vaya, te toca pagar a todos por moroso", 100, TipoSorpresa::PAGARCOBRAR)
-    #  mazo<< Sorpresa.new("Al margen de la ley", 0, TipoSorpresa::SALIRCARCEL)
-    #  mazo<< Sorpresa.new("Todos te pagan", 100, TipoSorpresa::PORJUGADOR)
-    #  mazo<< Sorpresa.new("Debes pagar tus deudas con el resto", 50, TipoSorpresa::PORJUGADOR)
-    #  mazo<< Sorpresa.new("¡Tus casas y hoteles generan beneficios!", 100, TipoSorpresa::PORCASAHOTEL)
-    #  mazo<< Sorpresa.new("Te toca pagar impuesto por tus casas y hoteles", 200, TipoSorpresa::PORCASAHOTEL)
-    #  mazo<< Sorpresa.new("Te conviertes en especulador!", 3000, TipoSorpresa::CONVERTIRME)
+      mazo<< Sorpresa.new("De vuelta al pricipio, vuelves a la casilla de salida", 0, TipoSorpresa::IRACASILLA)
+      mazo<< Sorpresa.new("Que suerte, te vas a la carcel", @tablero.carcel.numero_casilla, TipoSorpresa::IRACASILLA)
+      mazo<< Sorpresa.new("Poca broma, te vas a la ultima casilla del juego", @tablero.casillas.size()-1, TipoSorpresa::IRACASILLA)
+      mazo<< Sorpresa.new("Felicidades maquina, recibes dinero por tu cumple", 50, TipoSorpresa::PAGARCOBRAR)
+      mazo<< Sorpresa.new("Vaya, te toca pagar a todos por moroso", 100, TipoSorpresa::PAGARCOBRAR)
+      mazo<< Sorpresa.new("Al margen de la ley", 0, TipoSorpresa::SALIRCARCEL)
+      mazo<< Sorpresa.new("Todos te pagan", 100, TipoSorpresa::PORJUGADOR)
+      mazo<< Sorpresa.new("Debes pagar tus deudas con el resto", 50, TipoSorpresa::PORJUGADOR)
+      mazo<< Sorpresa.new("¡Tus casas y hoteles generan beneficios!", 100, TipoSorpresa::PORCASAHOTEL)
+      mazo<< Sorpresa.new("Te toca pagar impuesto por tus casas y hoteles", 200, TipoSorpresa::PORCASAHOTEL)
+      mazo<< Sorpresa.new("Te conviertes en especulador!", 3000, TipoSorpresa::CONVERTIRME)
       mazo<< Sorpresa.new("Eres todo un especulador!", 5000, TipoSorpresa::CONVERTIRME)
       mazo.shuffle!
     end
@@ -357,7 +357,7 @@ module ModeloQytetet
     end
     
     
-    def vender_propiedad(num_casilla)
+    def vender_propiedad(numero_casilla)
       casilla = @tablero.obtener_casilla_numero(numero_casilla)
       @jugador_actual.vender_propiedad(casilla)
       @estado_juego = EstadoJuego::JA_PUEDEGESTIONAR

@@ -1,12 +1,16 @@
 # To change this license header, choose License Headers in Project Properties.
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
-require_relative 'controlador_qytetet'
 
 module VistatextualQytetet
+  require_relative 'controlador_qytetet'
+  require_relative 'opcion_menu'
+  
   class VistaTextualQytetet
+    attr_reader :controlador
+    
     def initialize
-      @controlador = ControladorQytetet.instance
+      @controlador = ControladorQytetet::Controladorqytetet.instance
     end 
     
     def elegir_casilla(opcion_menu)
@@ -15,7 +19,7 @@ module VistatextualQytetet
       if(lista.empty?)
         return -1
       else
-        puts lista.to_s
+        puts "Elige una casilla: #{lista.to_s}"
         return leer_valor_correcto(lista)
       end
     end
@@ -23,7 +27,7 @@ module VistatextualQytetet
     
     def leer_valor_correcto(valores_correctos)
       loop do
-        input = gets.chomp
+        input = gets.chomp.to_i
         if(valores_correctos.include?(input))
           return input
         else
@@ -36,6 +40,11 @@ module VistatextualQytetet
     
     def elegir_operacion
       operaciones = @controlador.obtener_operaciones_juego_validas
+      puts "Operaciones que puedes realizar: "
+      for op in operaciones
+        puts "#{op}- #{ControladorQytetet::OpcionMenu.at(op)}"
+      end
+      puts "V"
       leer_valor_correcto(operaciones)
     end
     
@@ -62,18 +71,25 @@ module VistatextualQytetet
     
     
     def self.main
-      ui = VistaTextual.new
-      @controlador.nombre_jugadores = ui.obtener_nombre_jugadores
-      operacion_elegida = casilla_elegida = 0
+      ui = VistaTextualQytetet.new
       
+      puts  "============================================\n"+
+            "============BIENVENIDO A QYTETET============\n"+
+            "============================================\n"+
+            "=========Alejandro de la Plata Ramos========\n"+
+            "===========Robin Costas del Moral===========\n"+
+            "============================================\n"
+      ui.controlador.nombre_jugadores = ui.obtener_nombre_jugadores
+      operacion_elegida = casilla_elegida = 0
+      puts "Que empiece el juego!!\n"
       loop do 
         operacion_elegida = ui.elegir_operacion
-        necesita_elegir_casilla = @controlador.necesita_elegir_casilla(operacion_elegida)
+        necesita_elegir_casilla = ui.controlador.necesita_elegir_casilla(operacion_elegida)
         if(necesita_elegir_casilla)
           casilla_elegida = ui.elegir_casilla(operacion_elegida)
         end
         if(!necesita_elegir_casilla || casilla_elegida >= 0)
-          puts controlador.realizar_operacion(opcion_elegida, casilla_elegida)
+          puts ui.controlador.realizar_operacion(operacion_elegida, casilla_elegida)
         end
       end
     end

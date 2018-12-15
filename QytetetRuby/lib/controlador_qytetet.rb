@@ -4,57 +4,88 @@
 require "singleton"
 require_relative 'opcion_menu'
 require_relative 'estado_juego'
+require_relative 'qytetet'
 require_relative 'metodo_salir_carcel'
 
 module ControladorQytetet
-  class ControladorQytetet
+  class Controladorqytetet
     include Singleton
     attr_accessor :nombre_jugadores, :modelo
     
     def initialize  
+      @modelo = ModeloQytetet::Qytetet.instance
     end
     
     def obtener_operaciones_juego_validas
       opciones = Array.new
-      
-      case modelo.estadoJuego
-        when EstadoJuego::JA_PREPARADO
-          opciones << OpcionMenu.index(:JUGAR)
-          opciones << OpcionMenu.index(:MOSTRARJUGADORACTUAL)
-          opciones << OpcionMenu.index(:MOSTRARJUGADORES)
-          opciones << OpcionMenu.index(:MOSTRARTABLERO)
-          
-        when EstadoJuego::JA_PUEDEGESTIONAR
-          opciones << OpcionMenu.index(:PASARTURNO)
-          opciones << OpcionMenu.index(:MOSTRARJUGADORACTUAL)
-          opciones << OpcionMenu.index(:MOSTRARJUGADORES)
-          opciones << OpcionMenu.index(:MOSTRARTABLERO)
-          
-        when EstadoJuego::JA_PUEDECOMPRARGESTIONAR
-          opciones << OpcionMenu.index(:PASARTURNO)
-          opciones << OpcionMenu.index(:MOSTRARJUGADORACTUAL)
-          opciones << OpcionMenu.index(:MOSTRARJUGADORES)
-          opciones << OpcionMenu.index(:MOSTRARTABLERO)
-          
-        when EstadoJuego::JA_ENCARCELADOCONOPCIONLIBERTAD
-          opciones << OpcionMenu.index(:MOSTRARJUGADORACTUAL)
-          opciones << OpcionMenu.index(:MOSTRARJUGADORES)
-          opciones << OpcionMenu.index(:MOSTRARTABLERO)
-          
-        when EstadoJuego::JA_CONSORPRESA
-          opciones << OpcionMenu.index(:MOSTRARJUGADORACTUAL)
-          opciones << OpcionMenu.index(:MOSTRARJUGADORES)
-          opciones << OpcionMenu.index(:MOSTRARTABLERO)
-          
-        when EstadoJuego::JA_ENCARCELADO
-          opciones << OpcionMenu.index(:PASARTURNO)
-          opciones << OpcionMenu.index(:MOSTRARJUGADORACTUAL)
-          opciones << OpcionMenu.index(:MOSTRARJUGADORES)
-          opciones << OpcionMenu.index(:MOSTRARTABLERO)
-          
-        when EstadoJuego::ALGUNJUGADORENBANCARROTA
-           
+      puts "\nestado juego: #{@modelo.estado_juego.inspect}\n"
+      if(@modelo.estado_juego == nil)
+        opciones << OpcionMenu.index(:INICIARJUEGO)
+      else
+        case @modelo.estado_juego
+          when ModeloQytetet::EstadoJuego::JA_PREPARADO
+            opciones << OpcionMenu.index(:JUGAR)
+            opciones << OpcionMenu.index(:MOSTRARJUGADORACTUAL)
+            opciones << OpcionMenu.index(:MOSTRARJUGADORES)
+            opciones << OpcionMenu.index(:MOSTRARTABLERO)
+
+          when ModeloQytetet::EstadoJuego::JA_PUEDEGESTIONAR
+            opciones << OpcionMenu.index(:PASARTURNO)
+            if(!@modelo.obtener_propiedades_jugador_segun_estado_hipoteca(false).empty?)
+              opciones << OpcionMenu.index(:VENDERPROPIEDAD)
+              opciones << OpcionMenu.index(:HIPOTECARPROPIEDAD)
+              opciones << OpcionMenu.index(:EDIFICARCASA)
+              opciones << OpcionMenu.index(:EDIFICARHOTEL)
+            end
+            if(!@modelo.obtener_propiedades_jugador_segun_estado_hipoteca(true).empty?)
+              opciones << OpcionMenu.index(:CANCELARHIPOTECA)
+            end
+            opciones << OpcionMenu.index(:MOSTRARJUGADORACTUAL)
+            opciones << OpcionMenu.index(:MOSTRARJUGADORES)
+            opciones << OpcionMenu.index(:MOSTRARTABLERO)
+
+          when ModeloQytetet::EstadoJuego::JA_PUEDECOMPRAROGESTIONAR
+            opciones << OpcionMenu.index(:PASARTURNO)
+            opciones << OpcionMenu.index(:COMPRARTITULOPROPIEDAD)
+            if(!@modelo.obtener_propiedades_jugador_segun_estado_hipoteca(false).empty?)
+              opciones << OpcionMenu.index(:VENDERPROPIEDAD)
+              opciones << OpcionMenu.index(:HIPOTECARPROPIEDAD)
+              opciones << OpcionMenu.index(:EDIFICARCASA)
+              opciones << OpcionMenu.index(:EDIFICARHOTEL)
+            end
+            if(!@modelo.obtener_propiedades_jugador_segun_estado_hipoteca(true).empty?)
+              opciones << OpcionMenu.index(:CANCELARHIPOTECA)
+            end
+            opciones << OpcionMenu.index(:MOSTRARJUGADORACTUAL)
+            opciones << OpcionMenu.index(:MOSTRARJUGADORES)
+            opciones << OpcionMenu.index(:MOSTRARTABLERO)
+
+          when ModeloQytetet::EstadoJuego::JA_ENCARCELADOCONOPCIONDELIBERTAD
+            opciones << OpcionMenu.index(:INTENTARSALIRCARCELPAGANDOLIBERTAD)
+            opciones << OpcionMenu.index(:INTENTARSALIRCARCELTIRANDODADO)
+            opciones << OpcionMenu.index(:MOSTRARJUGADORACTUAL)
+            opciones << OpcionMenu.index(:MOSTRARJUGADORES)
+            opciones << OpcionMenu.index(:MOSTRARTABLERO)
+
+          when ModeloQytetet::EstadoJuego::JA_CONSORPRESA
+            opciones << OpcionMenu.index(:APLICARSORPRESA)
+            opciones << OpcionMenu.index(:MOSTRARJUGADORACTUAL)
+            opciones << OpcionMenu.index(:MOSTRARJUGADORES)
+            opciones << OpcionMenu.index(:MOSTRARTABLERO)
+
+          when ModeloQytetet::EstadoJuego::JA_ENCARCELADO
+            opciones << OpcionMenu.index(:PASARTURNO)
+            opciones << OpcionMenu.index(:MOSTRARJUGADORACTUAL)
+            opciones << OpcionMenu.index(:MOSTRARJUGADORES)
+            opciones << OpcionMenu.index(:MOSTRARTABLERO)
+
+          when ModeloQytetet::EstadoJuego::ALGUNJUGADORENBANCARROTA
+            opciones << OpcionMenu.index(:OBTENERRANKING)
+          else
+            opciones << OpcionMenu.index(:INICIARJUEGO)           
+        end
       end
+      return opciones
     end
     
     
@@ -67,10 +98,16 @@ module ControladorQytetet
     def obtener_casillas_validas(opcion_menu)
       operacion = OpcionMenu.at(opcion_menu)
       case operacion
-        when (:HIPOTECARPROPIEDAD || :EDIFICARCASA || :EDIFICARHOTEL || :VENDERPROPIEDAD)
-          return @modelo.jugador_actual.obtener_propiedades_jugador_segun_estado_hipoteca(false)
-        when (:CANCELARHIPOTECA)
-          return @modelo.jugador_actual.obtener_propiedades_jugador_segun_estado_hipoteca(true)
+        when :HIPOTECARPROPIEDAD  
+          return @modelo.obtener_propiedades_jugador_segun_estado_hipoteca(false)
+        when :EDIFICARCASA
+          return @modelo.obtener_propiedades_jugador_segun_estado_hipoteca(false)
+        when :EDIFICARHOTEL
+          return @modelo.obtener_propiedades_jugador_segun_estado_hipoteca(false)
+        when :VENDERPROPIEDAD
+          return @modelo.obtener_propiedades_jugador_segun_estado_hipoteca(false)
+        when :CANCELARHIPOTECA
+          return @modelo.obtener_propiedades_jugador_segun_estado_hipoteca(true)
       end
     end
     
@@ -80,7 +117,8 @@ module ControladorQytetet
       case operacion
       when :INICIARJUEGO
         @modelo.inicializar_juego(@nombre_jugadores)
-        puts "\nEmpieza el Juego\n"
+        puts "\nQue empiece el juego!\n"
+        puts "\n----> TURNO DE #{@modelo.jugador_actual.nombre} <----\n"
       when :JUGAR
         @modelo.jugar
         puts "\nHas sacado un #{@modelo.valor_dado}, por tanto te vas a la casilla #{@modelo.jugador_actual.casilla_actual.to_s}\n"
@@ -99,19 +137,19 @@ module ControladorQytetet
         puts "\nHas podido comprarlo? #{exito}\n"
       when :HIPOTECARPROPIEDAD
         @modelo.hipotecar_propiedad(casilla_elegida)
-        puts "\nHipotecada:  #{@modelo.obtener_casilla_numero(casilla_elegida).titulo.nombre}\n"
+        puts "\nHipotecada:  #{@modelo.tablero.obtener_casilla_numero(casilla_elegida).titulo.nombre}\n"
       when :CANCELARHIPOTECA
         @modelo.cancelar_hipoteca(casilla_elegida)
-        puts "\nCancelada hipoteca de #{@modelo.obtener_casilla_numero(casilla_elegida).titulo.nombre}\n"
+        puts "\nCancelada hipoteca de #{@modelo.tablero.obtener_casilla_numero(casilla_elegida).titulo.nombre}\n"
       when :EDIFICARCASA
-        @modelo.edificar_casa(@modelo.obtener_casilla_numero(casilla_elegida).titulo)
-        puts "\nEdificada casa en #{@modelo.obtener_casilla_numero(casilla_elegida).titulo.nombre}\n"
+        @modelo.edificar_casa(casilla_elegida)
+        puts "\nEdificada casa en #{@modelo.tablero.obtener_casilla_numero(casilla_elegida).titulo.nombre}\n"
       when :EDIFICARHOTEL
-        @modelo.edificar_hotel(@modelo.obtener_casilla_numero(casilla_elegida).titulo)
-        puts "\nEdificado hotel en #{@modelo.obtener_casilla_numero(casilla_elegida).titulo.nombre}\n"
+        @modelo.edificar_hotel(casilla_elegida)
+        puts "\nEdificado hotel en #{@modelo.tablero.obtener_casilla_numero(casilla_elegida).titulo.nombre}\n"
       when :VENDERPROPIEDAD
         @modelo.vender_propiedad(casilla_elegida)
-        puts "\nVendida #{@modelo.obtener_casilla_numero(casilla_elegida).titulo.nombre}\n"
+        puts "\nVendida #{@modelo.tablero.obtener_casilla_numero(casilla_elegida).titulo.nombre}\n"
       when :PASARTURNO
         @modelo.siguiente_jugador
         puts "\n----> TURNO DE #{@modelo.jugador_actual.nombre} <----\n"

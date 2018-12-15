@@ -19,6 +19,10 @@ module ModeloQytetet
     def soy_edificable
       return false
     end
+    
+    def titulo
+      return nil
+    end
    
   end
 
